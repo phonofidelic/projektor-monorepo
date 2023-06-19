@@ -47,6 +47,7 @@ importers:
       '@types/react': ^18.0.22
       '@types/react-dom': ^18.0.7
       eslint-config-custom: workspace:*
+      mocks: workspace:*
       next: ^13.4.1
       react: ^18.2.0
       react-dom: ^18.2.0
@@ -64,6 +65,7 @@ importers:
       '@types/react': 18.2.5
       '@types/react-dom': 18.2.3
       eslint-config-custom: link:../../packages/eslint-config-custom
+      mocks: link:../../packages/mocks
       tsconfig: link:../../packages/tsconfig
       types: link:../../packages/types
       typescript: 4.9.5
@@ -79,6 +81,16 @@ importers:
       eslint-config-prettier: 8.8.0
       eslint-config-turbo: 1.9.3_eslint@8.39.0
       eslint-plugin-react: 7.28.0_eslint@8.39.0
+
+  packages/mocks:
+    specifiers:
+      eslint-config-custom: workspace:*
+      tsconfig: workspace:*
+      types: workspace:*
+    devDependencies:
+      eslint-config-custom: link:../eslint-config-custom
+      tsconfig: link:../tsconfig
+      types: link:../types
 
   packages/tsconfig:
     specifiers: {}

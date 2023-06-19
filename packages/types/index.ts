@@ -11,7 +11,7 @@ export type Project = {
 export type Task = {
   id: string
   userId: string
-  project: string
+  projectId: string
   title: string
   description?: string
   createdAt: string
