@@ -3,8 +3,9 @@
   "main": "./index.ts",
   "types": "./index.ts",
   "devDependencies": {
-    "@projektor/types": "workspace:*",
+    "@faker-js/faker": "^8.0.2",
     "@projektor/eslint-config-custom": "workspace:*",
-    "@projektor/tsconfig": "workspace:*"
+    "@projektor/tsconfig": "workspace:*",
+    "@projektor/types": "workspace:*"
   }
 }

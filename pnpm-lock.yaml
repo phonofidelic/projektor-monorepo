@@ -84,10 +84,12 @@ importers:
 
   packages/mocks:
     specifiers:
+      '@faker-js/faker': ^8.0.2
       '@projektor/eslint-config-custom': workspace:*
       '@projektor/tsconfig': workspace:*
       '@projektor/types': workspace:*
     devDependencies:
+      '@faker-js/faker': 8.0.2
       '@projektor/eslint-config-custom': link:../eslint-config-custom
       '@projektor/tsconfig': link:../tsconfig
       '@projektor/types': link:../types
@@ -213,6 +215,11 @@ packages:
     resolution: {integrity: sha512-kf9RB0Fg7NZfap83B3QOqOGg9QmD9yBudqQXzzOtn3i4y7ZUXe5ONeW34Gwi+TxhH4mvj72R1Zc300KUMa9Bng==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: false
+
+  /@faker-js/faker/8.0.2:
+    resolution: {integrity: sha512-Uo3pGspElQW91PCvKSIAXoEgAUlRnH29sX2/p89kg7sP1m2PzCufHINd0FhTXQf6DYGiUlVncdSPa2F9wxed2A==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0, npm: '>=6.14.13'}
+    dev: true
 
   /@humanwhocodes/config-array/0.11.8:
     resolution: {integrity: sha512-UybHIJzJnR5Qc/MsD9Kr+RpO2h+/P1GhOwdiLPXK5TWk5sgTdu88bTD9UP+CKbPPh5Rni1u0GjAdYQLemG8g+g==}
