@@ -1,0 +1,11 @@
+{
+  "name": "@projektor/mocks",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "@projektor/eslint-config-custom": "workspace:*",
+    "@projektor/tsconfig": "workspace:*",
+    "@projektor/types": "workspace:*"
+  }
+}
