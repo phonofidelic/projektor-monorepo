@@ -1,9 +1,17 @@
 import { Task, Project } from '@projektor/types'
+import { faker } from '@faker-js/faker'
 
-export function generateTask(): Task {
+export const setSeed = faker.seed.bind(faker)
+
+type GenerateMockTaskOptions = {
+  userId?: string
+}
+export function generateMockTask({
+  userId,
+}: GenerateMockTaskOptions = {}): Task {
   return {
-    id: 'task123',
-    userId: 'user123',
+    id: faker.string.uuid(),
+    userId: userId ?? faker.string.uuid(),
     projectId: 'project123',
     title: 'Random task',
     description: 'This is a mock task',
@@ -12,14 +20,21 @@ export function generateTask(): Task {
   }
 }
 
-export function generateProject(): Project {
+type GenerateMockProjectOptions = {
+  userId?: string
+}
+export function generateMockProject({
+  userId: providedUserId,
+}: GenerateMockProjectOptions = {}): Project {
+  const userId = providedUserId ?? faker.string.uuid()
+
   return {
-    id: 'project123',
-    userId: 'user123',
-    title: 'Random project',
+    id: faker.string.uuid(),
+    userId,
+    title: faker.company.catchPhrase(),
     description: 'This is a mock project',
     createdAt: Date.now().toString(),
     updatedAt: Date.now().toString(),
-    tasks: [generateTask()],
+    tasks: [generateMockTask({ userId })],
   }
 }

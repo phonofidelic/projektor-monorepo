@@ -1,13 +1,16 @@
 import { Button, Header } from '@projektor/ui'
-import { generateProject } from '@projektor/mocks'
+import { generateMockProject, setSeed } from '@projektor/mocks'
 
 export default function Page() {
-  const project = generateProject()
+  setSeed(1234)
+  const project = generateMockProject({ userId: 'testUser123' })
   return (
     <>
       <Header text="Web" />
       <Button />
-      <div>{project.title}</div>
+      <div>Project title: {project.title}</div>
+      <div>userId: {project.userId}</div>
+      <div>{project.tasks[0].userId}</div>
     </>
   )
 }
