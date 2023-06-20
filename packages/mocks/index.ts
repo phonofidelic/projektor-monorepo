@@ -5,14 +5,16 @@ export const setSeed = faker.seed.bind(faker)
 
 type GenerateMockTaskOptions = {
   userId?: string
+  projectId?: string
 }
 export function generateMockTask({
   userId,
+  projectId,
 }: GenerateMockTaskOptions = {}): Task {
   return {
     id: faker.string.uuid(),
     userId: userId ?? faker.string.uuid(),
-    projectId: 'project123',
+    projectId: projectId ?? faker.string.uuid(),
     title: 'Random task',
     description: 'This is a mock task',
     createdAt: Date.now().toString(),
@@ -22,19 +24,29 @@ export function generateMockTask({
 
 type GenerateMockProjectOptions = {
   userId?: string
+  taskCount?: number
 }
 export function generateMockProject({
   userId: providedUserId,
+  taskCount,
 }: GenerateMockProjectOptions = {}): Project {
   const userId = providedUserId ?? faker.string.uuid()
+  const id = faker.string.uuid()
+
+  const tasks = []
+  const count = taskCount ?? faker.helpers.rangeToNumber({ min: 0, max: 10 })
+
+  for (let index = 0; index < count; index++) {
+    tasks.push(generateMockTask({ userId, projectId: id }))
+  }
 
   return {
-    id: faker.string.uuid(),
+    id,
     userId,
     title: faker.company.catchPhrase(),
     description: 'This is a mock project',
     createdAt: Date.now().toString(),
     updatedAt: Date.now().toString(),
-    tasks: [generateMockTask({ userId })],
+    tasks,
   }
 }

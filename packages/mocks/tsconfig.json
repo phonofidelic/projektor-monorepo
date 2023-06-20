@@ -1,0 +1,4 @@
+{
+  "extends": "@projektor/tsconfig/base.json",
+  "include": ["**/*.ts"],
+}
