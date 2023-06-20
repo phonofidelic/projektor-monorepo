@@ -1,10 +1,10 @@
 {
-  "name": "mocks",
+  "name": "@projektor/mocks",
   "main": "./index.ts",
   "types": "./index.ts",
   "devDependencies": {
-    "eslint-config-custom": "workspace:*",
-    "tsconfig": "workspace:*",
-    "types": "workspace:*"
+    "@projektor/types": "workspace:*",
+    "@projektor/eslint-config-custom": "workspace:*",
+    "@projektor/tsconfig": "workspace:*"
   }
 }

@@ -4,70 +4,70 @@ importers:
 
   .:
     specifiers:
+      '@projektor/eslint-config-custom': workspace:*
       '@turbo/gen': ^1.9.7
       eslint: ^7.32.0
-      eslint-config-custom: workspace:*
       prettier: ^2.5.1
       turbo: latest
     devDependencies:
+      '@projektor/eslint-config-custom': link:packages/eslint-config-custom
       '@turbo/gen': 1.9.7_t7dmilwzctzfywb3oy4dmby4b4
       eslint: 7.32.0
-      eslint-config-custom: link:packages/eslint-config-custom
       prettier: 2.8.8
       turbo: 1.10.3
 
   apps/docs:
     specifiers:
+      '@projektor/eslint-config-custom': workspace:*
+      '@projektor/tsconfig': workspace:*
+      '@projektor/ui': workspace:*
       '@types/node': ^17.0.12
       '@types/react': ^18.0.22
       '@types/react-dom': ^18.0.7
-      eslint-config-custom: workspace:*
       next: ^13.4.1
       react: ^18.2.0
       react-dom: ^18.2.0
-      tsconfig: workspace:*
       typescript: ^4.5.3
-      ui: workspace:*
     dependencies:
+      '@projektor/ui': link:../../packages/ui
       next: 13.4.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      ui: link:../../packages/ui
     devDependencies:
+      '@projektor/eslint-config-custom': link:../../packages/eslint-config-custom
+      '@projektor/tsconfig': link:../../packages/tsconfig
       '@types/node': 17.0.45
       '@types/react': 18.2.5
       '@types/react-dom': 18.2.3
-      eslint-config-custom: link:../../packages/eslint-config-custom
-      tsconfig: link:../../packages/tsconfig
       typescript: 4.9.5
 
   apps/web:
     specifiers:
+      '@projektor/eslint-config-custom': workspace:*
+      '@projektor/mocks': workspace:*
+      '@projektor/tsconfig': workspace:*
+      '@projektor/types': workspace:*
+      '@projektor/ui': workspace:*
       '@types/node': ^17.0.12
       '@types/react': ^18.0.22
       '@types/react-dom': ^18.0.7
-      eslint-config-custom: workspace:*
-      mocks: workspace:*
       next: ^13.4.1
       react: ^18.2.0
       react-dom: ^18.2.0
-      tsconfig: workspace:*
-      types: workspace:*
       typescript: ^4.5.3
-      ui: workspace:*
     dependencies:
+      '@projektor/ui': link:../../packages/ui
       next: 13.4.1_biqbaboplfbrettd7655fr4n2y
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
-      ui: link:../../packages/ui
     devDependencies:
+      '@projektor/eslint-config-custom': link:../../packages/eslint-config-custom
+      '@projektor/mocks': link:../../packages/mocks
+      '@projektor/tsconfig': link:../../packages/tsconfig
+      '@projektor/types': link:../../packages/types
       '@types/node': 17.0.45
       '@types/react': 18.2.5
       '@types/react-dom': 18.2.3
-      eslint-config-custom: link:../../packages/eslint-config-custom
-      mocks: link:../../packages/mocks
-      tsconfig: link:../../packages/tsconfig
-      types: link:../../packages/types
       typescript: 4.9.5
 
   packages/eslint-config-custom:
@@ -84,13 +84,13 @@ importers:
 
   packages/mocks:
     specifiers:
-      eslint-config-custom: workspace:*
-      tsconfig: workspace:*
-      types: workspace:*
+      '@projektor/eslint-config-custom': workspace:*
+      '@projektor/tsconfig': workspace:*
+      '@projektor/types': workspace:*
     devDependencies:
-      eslint-config-custom: link:../eslint-config-custom
-      tsconfig: link:../tsconfig
-      types: link:../types
+      '@projektor/eslint-config-custom': link:../eslint-config-custom
+      '@projektor/tsconfig': link:../tsconfig
+      '@projektor/types': link:../types
 
   packages/tsconfig:
     specifiers: {}
@@ -100,20 +100,20 @@ importers:
 
   packages/ui:
     specifiers:
+      '@projektor/eslint-config-custom': workspace:*
+      '@projektor/tsconfig': workspace:*
       '@types/react': ^18.2.0
       '@types/react-dom': ^18.2.0
       eslint: ^7.32.0
-      eslint-config-custom: workspace:*
       react: ^17.0.2
-      tsconfig: workspace:*
       typescript: ^4.5.2
     devDependencies:
+      '@projektor/eslint-config-custom': link:../eslint-config-custom
+      '@projektor/tsconfig': link:../tsconfig
       '@types/react': 18.2.5
       '@types/react-dom': 18.2.3
       eslint: 7.32.0
-      eslint-config-custom: link:../eslint-config-custom
       react: 17.0.2
-      tsconfig: link:../tsconfig
       typescript: 4.9.5
 
 packages:
