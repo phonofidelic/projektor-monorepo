@@ -1,5 +1,5 @@
-import { Button, Header } from 'ui'
-import { generateProject } from 'mocks'
+import { Button, Header } from '@projektor/ui'
+import { generateProject } from '@projektor/mocks'
 
 export default function Page() {
   const project = generateProject()

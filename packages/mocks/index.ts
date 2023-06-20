@@ -1,4 +1,4 @@
-import { Task, Project } from 'types'
+import { Task, Project } from '@projektor/types'
 
 export function generateTask(): Task {
   return {
