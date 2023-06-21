@@ -1,20 +1,46 @@
 {
   "name": "@projektor/ui",
   "version": "0.0.0",
-  "main": "./index.tsx",
-  "types": "./index.tsx",
+  "type": "module",
+  "files": [
+    "package.json",
+    "dist"
+  ],
+  "sideEffects": false,
+  "main": "./dist/ui.js",
+  "exports": {
+    ".": "./dist/ui.js",
+    "./style.css": "./dist/style.css"
+  },
+  "style": "./dist/style.css",
+  "types": "./dist/lib/index.d.ts",
   "license": "MIT",
   "scripts": {
     "lint": "eslint \"**/*.ts*\"",
-    "generate:component": "turbo gen react-component"
+    "generate:component": "turbo gen react-component",
+    "build": "pnpm vite build",
+    "dev": "pnpm vite build --watch",
+    "clean": "rm -rf dist"
   },
   "devDependencies": {
-    "@projektor/tsconfig": "workspace:*",
     "@projektor/eslint-config-custom": "workspace:*",
+    "@projektor/tsconfig": "workspace:*",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.0.1",
     "eslint": "^7.32.0",
     "react": "^17.0.2",
-    "typescript": "^4.5.2"
+    "rollup-plugin-preserve-directives": "^0.2.0",
+    "typescript": "^4.5.2",
+    "vite": "^4.3.9",
+    "vite-plugin-dts": "^2.3.0"
+  },
+  "dependencies": {
+    "autoprefixer": "^10.4.14",
+    "postcss": "^8.4.24",
+    "tailwindcss": "^3.3.2"
+  },
+  "peerDependencies": {
+    "react": "^17.0.2"
   }
 }
