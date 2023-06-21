@@ -56,7 +56,7 @@ export function generateMockProject({
 
 export function generateMockProjectsArray(
   length: number,
-  options: GenerateMockProjectOptions
+  options: GenerateMockProjectOptions = {}
 ) {
   return Array.from(Array(length), (_, index) => {
     setSeed(index)

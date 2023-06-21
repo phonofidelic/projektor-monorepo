@@ -1,4 +1,9 @@
-import { generateMockProject, generateMockTask, setSeed } from '.'
+import {
+  generateMockProject,
+  generateMockProjectsArray,
+  generateMockTask,
+  setSeed,
+} from '.'
 
 describe('generateMockTask', () => {
   beforeEach(() => {
@@ -46,5 +51,17 @@ describe('generateMockProject', () => {
     expect(mockProject.tasks.length).toBe(5)
     expect(mockProject.tasks[0].userId).toBe(mockUserId)
     expect(mockProject.tasks[0].projectId).toBe(mockProject.id)
+  })
+})
+
+describe('generateMockProjectsArray', () => {
+  test('generates a list of projects of a specified length', () => {
+    const projects = generateMockProjectsArray(5)
+    expect(projects.length).toBe(5)
+  })
+
+  test('can specify a userId', () => {
+    const projects = generateMockProjectsArray(5, { userId: 'testUser123' })
+    expect(projects[0].userId).toBe('testUser123')
   })
 })
