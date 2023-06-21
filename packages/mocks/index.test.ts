@@ -28,7 +28,7 @@ describe('generateMockProject', () => {
     const mockProject = generateMockProject()
     expect(mockProject.id).toBe('08700c4e-35b9-4e1f-a51e-6a768cc5796d')
     expect(mockProject.userId).toBe('379d79cc-cd42-443c-adf2-e15087a5bc51')
-    expect(mockProject.title).toBe('Ameliorated homogeneous knowledge base')
+    expect(mockProject.title).toBe('Mandatory well-modulated projection')
   })
 
   test('creates a mock project with the correct userId if provided', () => {

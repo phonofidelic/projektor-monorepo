@@ -33,9 +33,11 @@ export function generateMockProject({
   const userId = providedUserId ?? faker.string.uuid()
   const id = faker.string.uuid()
 
+  const title = faker.company.catchPhrase()
+  const slug = faker.helpers.slugify(title).toLowerCase()
+
   const tasks = []
   const count = taskCount ?? faker.helpers.rangeToNumber({ min: 0, max: 10 })
-
   for (let index = 0; index < count; index++) {
     tasks.push(generateMockTask({ userId, projectId: id }))
   }
@@ -43,10 +45,21 @@ export function generateMockProject({
   return {
     id,
     userId,
-    title: faker.company.catchPhrase(),
+    title,
+    slug,
     description: 'This is a mock project',
     createdAt: Date.now().toString(),
     updatedAt: Date.now().toString(),
     tasks,
   }
+}
+
+export function generateMockProjectsArray(
+  length: number,
+  options: GenerateMockProjectOptions
+) {
+  return Array.from(Array(length), (_, index) => {
+    setSeed(index)
+    return generateMockProject({ userId: options.userId })
+  })
 }
