@@ -2,6 +2,7 @@ export type Project = {
   id: string
   userId: string
   title: string
+  slug: string
   description?: string
   createdAt: string
   updatedAt: string
