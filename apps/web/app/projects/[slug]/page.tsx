@@ -10,7 +10,7 @@ type Props = {
 
 export default function ProjectDetailsPage({ params }: Props) {
   const { slug } = params
-  const project = generateMockProjectsArray(5, { userId: 'testUser123' }).find(
+  const project = generateMockProjectsArray(10, { userId: 'testUser123' }).find(
     (project) => project.slug === slug
   )
 

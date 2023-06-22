@@ -1,13 +1,15 @@
 'use client'
-import React from 'react'
-import { Project } from '@projektor/types'
+import React, { useState } from 'react'
 import Link from 'next/link'
+import { Project } from '@projektor/types'
+import { OptionsMenu, OptionsMenuItem } from './OptionsMenu'
 
 type Props = {
   project: Project
 }
 
 export default function ProjectGridItem({ project }: Props) {
+  const [optionsMenuOpen, setOptionsMenuOpen] = useState(false)
   return (
     <Link href={`/projects/${project.slug}`}>
       <div className="p-4 flex space-x-2 border border-gray-200 rounded hover:bg-gray-100">
@@ -17,14 +19,36 @@ export default function ProjectGridItem({ project }: Props) {
           <p className="text-gray-400">{project.description}</p>
         </div>
         <div className="w-10 flex flex-col justify-center">
-          <button
-            className="rounded-full w-10 h-10 border hover:bg-gray-300"
-            onClick={(event) => {
-              event.preventDefault()
-            }}
+          <OptionsMenu
+            open={optionsMenuOpen}
+            onOpen={() => setOptionsMenuOpen(true)}
+            onClose={() => setOptionsMenuOpen(false)}
           >
-            ...
-          </button>
+            <OptionsMenuItem
+              onSelect={() => {
+                setOptionsMenuOpen(false)
+                console.log('TODO: Edit project')
+              }}
+            >
+              Edit
+            </OptionsMenuItem>
+            <OptionsMenuItem
+              onSelect={() => {
+                setOptionsMenuOpen(false)
+                console.log('TODO: Archive project')
+              }}
+            >
+              Archive
+            </OptionsMenuItem>
+            <OptionsMenuItem
+              onSelect={() => {
+                setOptionsMenuOpen(false)
+                console.log('TODO: Move project to trash')
+              }}
+            >
+              Move to trash
+            </OptionsMenuItem>
+          </OptionsMenu>
         </div>
       </div>
     </Link>
