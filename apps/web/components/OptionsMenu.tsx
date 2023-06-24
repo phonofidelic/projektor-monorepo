@@ -46,7 +46,7 @@ export function OptionsMenu({
         />
       )}
       <button
-        className="justify-self-center p-auto rounded-full w-10 h-10 hover:bg-gray-300"
+        className="justify-self-center p-auto rounded-full w-10 h-10 hover:bg-gray-200"
         onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
           event.preventDefault()
           onOpen()
