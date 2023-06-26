@@ -2,9 +2,11 @@
   "name": "@projektor/mocks",
   "main": "./index.ts",
   "types": "./index.ts",
+  "type": "module",
   "scripts": {
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "dev": "ts-node --esm ./devServer.ts"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.22.5",
@@ -12,8 +14,15 @@
     "@projektor/eslint-config-custom": "workspace:*",
     "@projektor/tsconfig": "workspace:*",
     "@projektor/types": "workspace:*",
+    "@types/express": "^4.17.17",
     "@types/jest": "^29.5.2",
+    "@types/node": "^17.0.12",
     "jest": "^29.5.0",
-    "ts-jest": "^29.1.0"
+    "ts-jest": "^29.1.0",
+    "ts-node": "^10.9.1"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "msw": "^1.2.2"
   }
 }

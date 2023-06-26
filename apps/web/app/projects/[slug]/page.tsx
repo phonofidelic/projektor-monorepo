@@ -1,6 +1,9 @@
-import { generateMockProjectsArray } from '@projektor/mocks'
+import { Project } from '@projektor/types'
 import { Header } from '@projektor/ui'
-import React from 'react'
+
+type FetchProjectResponse = {
+  project?: Project
+}
 
 type Props = {
   params: {
@@ -8,11 +11,14 @@ type Props = {
   }
 }
 
-export default function ProjectDetailsPage({ params }: Props) {
+export default async function ProjectDetailsPage({ params }: Props) {
   const { slug } = params
-  const project = generateMockProjectsArray(10, { userId: 'testUser123' }).find(
-    (project) => project.slug === slug
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_PROJEKTOR_API_BASE_URL}/projects/${slug}`
   )
+
+  const { project }: FetchProjectResponse = await response.json()
 
   if (!project) {
     return (
