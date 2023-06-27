@@ -2,6 +2,9 @@
   "extends": "@projektor/tsconfig/base.json",
   "include": ["**/*.ts"],
   "compilerOptions": {
-    "target": "ESNext"
+    "target": "ESNext",
+    "module": "ESNext",
+    "esModuleInterop": true,
+    "moduleResolution": "Node"
   }
 }

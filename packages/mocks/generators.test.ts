@@ -3,7 +3,7 @@ import {
   generateMockProjectsArray,
   generateMockTask,
   setSeed,
-} from '.'
+} from './generators'
 
 describe('generateMockTask', () => {
   beforeEach(() => {

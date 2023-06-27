@@ -1,9 +1,22 @@
+import { Project } from '@projektor/types'
 import { Header } from '@projektor/ui'
-import { generateMockProjectsArray } from '@projektor/mocks'
 import ProjectGridItem from '../../components/ProjectGridItem'
 
-export default function ProjectsPage() {
-  const projects = generateMockProjectsArray(10, { userId: 'testUser123' })
+type FetchProjectsResponse = {
+  projects?: Project[]
+}
+
+export default async function ProjectsPage() {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_PROJEKTOR_API_BASE_URL}/projects?limit=10`
+  )
+
+  const { projects }: FetchProjectsResponse = await response.json()
+
+  if (!projects) {
+    return 'No projects!'
+  }
+
   return (
     <>
       <div className="sticky top-0 bg-white z-20">

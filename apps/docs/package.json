@@ -9,14 +9,14 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "^13.4.1",
+    "@projektor/ui": "workspace:*",
+    "next": "^13.4.7",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "@projektor/ui": "workspace:*"
+    "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@projektor/tsconfig": "workspace:*",
     "@projektor/eslint-config-custom": "workspace:*",
+    "@projektor/tsconfig": "workspace:*",
     "@types/node": "^17.0.12",
     "@types/react": "^18.0.22",
     "@types/react-dom": "^18.0.7",

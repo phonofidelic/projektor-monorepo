@@ -11,7 +11,7 @@ type Props = {
 export default function ProjectGridItem({ project }: Props) {
   const [optionsMenuOpen, setOptionsMenuOpen] = useState(false)
   return (
-    <Link href={`/projects/${project.slug}`}>
+    <Link key={project.id} href={`/projects/${project.slug}`}>
       <div className="p-4 flex space-x-2 border border-gray-200 rounded hover:bg-gray-100 transition-colors">
         <div></div>
         <div className="truncate flex-1">
