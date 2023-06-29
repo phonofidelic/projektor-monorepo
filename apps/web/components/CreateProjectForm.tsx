@@ -1,10 +1,14 @@
 'use client'
 import React, { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { Project } from '@projektor/types'
 
 type Props = {}
 
 export default function CreateProjectForm({}: Props) {
+  const router = useRouter()
   const [themeValue, setThemeValue] = useState('#000000')
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
@@ -22,8 +26,11 @@ export default function CreateProjectForm({}: Props) {
       }
     )
 
-    console.log('response', await response.json())
+    // console.log('response', await response.json())
+    const { project }: { project: Project } = await response.json()
+    router.push(`/projects/${project.slug}`)
   }
+
   return (
     <form onSubmit={handleSubmit} method="post">
       <div className="p-4 max-w-xl mx-auto grid grid-cols-1 gap-4">

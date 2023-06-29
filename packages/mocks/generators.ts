@@ -44,6 +44,8 @@ export function generateMockProject({
     tasks.push(generateMockTask({ userId, projectId: id }))
   }
 
+  const refDate = faker.date.past()
+
   return {
     id,
     userId,
@@ -51,8 +53,9 @@ export function generateMockProject({
     slug,
     description: projectData.description ?? faker.hacker.phrase(),
     theme: faker.color.rgb(),
-    createdAt: Date.now().toString(),
-    updatedAt: Date.now().toString(),
+    createdAt: projectData.createdAt ?? refDate.toDateString(),
+    updatedAt:
+      projectData.updatedAt ?? faker.date.past({ refDate }).toDateString(),
     tasks,
   }
 }

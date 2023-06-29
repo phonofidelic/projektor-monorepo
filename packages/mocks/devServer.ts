@@ -26,6 +26,19 @@ app.get('/api/projects', (request, response) => {
 
 app.get('/api/projects/:slug', (request, response) => {
   const { slug } = request.params
+
+  if (/^_test_/.test(slug)) {
+    return response.status(200).json({
+      project: generateMockProject({
+        userId: TEST_USER,
+        taskCount: 0,
+        projectData: {
+          slug,
+        },
+      }),
+    })
+  }
+
   response.status(200).json({
     project: generateMockProjectsArray(0, {
       userId: TEST_USER,
