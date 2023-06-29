@@ -1,9 +1,15 @@
 import express from 'express'
+import cors from 'cors'
+import bodyParser from 'body-parser'
 import { generateMockProject, generateMockProjectsArray } from './generators.js'
 
 const app = express()
 const port = 4000
 const TEST_USER = 'testUser123'
+
+app.use(cors())
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 app.get('/api/projects', (request, response) => {
   const { limit } = request.query
@@ -28,7 +34,14 @@ app.get('/api/projects/:slug', (request, response) => {
 })
 
 app.post('/api/projects', (request, response) => {
-  const project = generateMockProject({ userId: TEST_USER, taskCount: 0 })
+  console.log('POST projects', request.body.project_title)
+  const title = request.body.project_title
+  const description = request.body.project_description
+  const project = generateMockProject({
+    userId: TEST_USER,
+    taskCount: 0,
+    projectData: { title, description },
+  })
   response.status(201).json({ project })
 })
 
