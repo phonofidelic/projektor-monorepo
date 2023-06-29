@@ -12,7 +12,12 @@ export default function ProjectGridItem({ project }: Props) {
   const [optionsMenuOpen, setOptionsMenuOpen] = useState(false)
   return (
     <Link key={project.id} href={`/projects/${project.slug}`}>
-      <div className="p-4 flex space-x-2 border border-gray-200 rounded hover:bg-gray-100 transition-colors">
+      <div
+        className="p-4 flex space-x-2 border border-gray-200 rounded hover:bg-gray-100 transition-colors"
+        style={{
+          borderLeft: `4px solid ${project.theme}`,
+        }}
+      >
         <div></div>
         <div className="truncate flex-1">
           <h2 className="truncate whitespace-nowrap">{project.title}</h2>
