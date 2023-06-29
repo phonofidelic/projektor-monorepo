@@ -14,6 +14,8 @@
     "@projektor/eslint-config-custom": "workspace:*",
     "@projektor/tsconfig": "workspace:*",
     "@projektor/types": "workspace:*",
+    "@types/body-parser": "^1.19.2",
+    "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/jest": "^29.5.2",
     "@types/node": "^17.0.12",
@@ -23,6 +25,8 @@
     "ts-node": "^10.9.1"
   },
   "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "msw": "^1.2.2"
   }

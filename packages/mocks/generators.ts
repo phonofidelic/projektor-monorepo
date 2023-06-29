@@ -16,7 +16,7 @@ export function generateMockTask({
     userId: userId ?? faker.string.uuid(),
     projectId: projectId ?? faker.string.uuid(),
     title: 'Random task',
-    description: 'This is a mock task',
+    description: faker.git.commitMessage(),
     createdAt: Date.now().toString(),
     updatedAt: Date.now().toString(),
   }
@@ -25,15 +25,17 @@ export function generateMockTask({
 type GenerateMockProjectOptions = {
   userId?: string
   taskCount?: number
+  projectData?: Partial<Project>
 }
 export function generateMockProject({
   userId: providedUserId,
   taskCount,
+  projectData = {},
 }: GenerateMockProjectOptions = {}): Project {
   const userId = providedUserId ?? faker.string.uuid()
   const id = faker.string.uuid()
 
-  const title = faker.company.catchPhrase()
+  const title = projectData.title ?? faker.company.catchPhrase()
   const slug = faker.helpers.slugify(title).toLowerCase()
 
   const tasks = []
@@ -42,14 +44,18 @@ export function generateMockProject({
     tasks.push(generateMockTask({ userId, projectId: id }))
   }
 
+  const refDate = faker.date.past()
+
   return {
     id,
     userId,
     title,
     slug,
-    description: 'This is a mock project',
-    createdAt: Date.now().toString(),
-    updatedAt: Date.now().toString(),
+    description: projectData.description ?? faker.hacker.phrase(),
+    theme: faker.color.rgb(),
+    createdAt: projectData.createdAt ?? refDate.toDateString(),
+    updatedAt:
+      projectData.updatedAt ?? faker.date.past({ refDate }).toDateString(),
     tasks,
   }
 }
