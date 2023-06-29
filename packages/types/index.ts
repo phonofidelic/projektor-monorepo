@@ -4,6 +4,7 @@ export type Project = {
   title: string
   slug: string
   description?: string
+  theme?: string
   createdAt: string
   updatedAt: string
   tasks: Task[]
