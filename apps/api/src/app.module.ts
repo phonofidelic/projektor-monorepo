@@ -9,9 +9,16 @@ import { PrismaService } from './prisma.service'
 import { UserService } from './user/user.service'
 import { AuthModule } from './auth/auth.module'
 import { AuthService } from './auth/auth.service'
+import { JwtModule } from '@nestjs/jwt'
 
 @Module({
-  imports: [ConfigModule.forRoot(), ProjectsModule, UserModule, AuthModule],
+  imports: [
+    ConfigModule.forRoot(),
+    ProjectsModule,
+    UserModule,
+    AuthModule,
+    JwtModule,
+  ],
   controllers: [AppController],
   providers: [
     AppService,

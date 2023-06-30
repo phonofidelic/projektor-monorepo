@@ -34,6 +34,7 @@ importers:
       '@types/jest': ^29.5.2
       '@types/node': ^20.3.1
       '@types/passport-jwt': ^3.0.8
+      '@types/passport-local': ^1.0.35
       '@types/supertest': ^2.0.12
       '@typescript-eslint/eslint-plugin': ^5.59.11
       '@typescript-eslint/parser': ^5.59.11
@@ -44,6 +45,7 @@ importers:
       jest: ^29.5.0
       passport: ^0.6.0
       passport-jwt: ^4.0.1
+      passport-local: ^1.0.0
       prettier: ^2.8.8
       prisma: ^4.16.1
       reflect-metadata: ^0.1.13
@@ -67,6 +69,7 @@ importers:
       bcrypt: 5.1.0
       passport: 0.6.0
       passport-jwt: 4.0.1
+      passport-local: 1.0.0
       reflect-metadata: 0.1.13
       rxjs: 7.8.1
     devDependencies:
@@ -78,6 +81,7 @@ importers:
       '@types/jest': 29.5.2
       '@types/node': 20.3.2
       '@types/passport-jwt': 3.0.8
+      '@types/passport-local': 1.0.35
       '@types/supertest': 2.0.12
       '@typescript-eslint/eslint-plugin': 5.60.1_nxpvb2fnld4vk2v7o3443dfbne
       '@typescript-eslint/parser': 5.60.1_knnjr7kq4rs2qtmvdkf5nzsniu
@@ -2213,6 +2217,14 @@ packages:
     dependencies:
       '@types/express': 4.17.17
       '@types/jsonwebtoken': 9.0.2
+      '@types/passport-strategy': 0.2.35
+    dev: true
+
+  /@types/passport-local/1.0.35:
+    resolution: {integrity: sha512-K4eLTJ8R0yYW8TvCqkjB0pTKoqfUSdl5PfZdidTjV2ETV3604fQxtY6BHKjQWAx50WUS0lqzBvKv3LoI1ZBPeA==}
+    dependencies:
+      '@types/express': 4.17.17
+      '@types/passport': 1.0.12
       '@types/passport-strategy': 0.2.35
     dev: true
 
@@ -6997,6 +7009,13 @@ packages:
     resolution: {integrity: sha512-UCKMDYhNuGOBE9/9Ycuoyh7vP6jpeTp/+sfMJl7nLff/t6dps+iaeE0hhNkKN8/HZHcJ7lCdOyDxHdDoxoSvdQ==}
     dependencies:
       jsonwebtoken: 9.0.0
+      passport-strategy: 1.0.0
+    dev: false
+
+  /passport-local/1.0.0:
+    resolution: {integrity: sha512-9wCE6qKznvf9mQYYbgJ3sVOHmCWoUNMVFoZzNoznmISbhnNNPhN9xfY3sLmScHMetEJeoY7CXwfhCe7argfQow==}
+    engines: {node: '>= 0.4.0'}
+    dependencies:
       passport-strategy: 1.0.0
     dev: false
 
