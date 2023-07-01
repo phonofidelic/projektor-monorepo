@@ -50,7 +50,6 @@ export class AuthService {
   }
 
   async loginUser(user: Omit<User, 'password'>) {
-    console.log('*** loginUser, user:', user)
     const tokens = await this.getTokens(user.id, user.email)
     await this.updateRefreshToken(user.id, tokens.refreshToken)
 

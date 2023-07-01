@@ -22,7 +22,6 @@ export class UserService {
   }
 
   async update(id: string, updateUserDto: UpdateUserDto) {
-    console.log('*** update, id:', id)
     return this.prisma.user.update({ where: { id }, data: updateUserDto })
   }
 
