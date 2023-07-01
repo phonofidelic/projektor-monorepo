@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common'
-import { CreateUserDto } from './dto/create-user.dto'
 import { UpdateUserDto } from './dto/update-user.dto'
 import { PrismaService } from 'src/prisma.service'
 import { Prisma, User } from '@prisma/client'
@@ -12,10 +11,6 @@ export class UserService {
     return this.prisma.user.create({ data })
   }
 
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user'
-  }
-
   async findAll(): Promise<User[]> {
     return this.prisma.user.findMany({})
   }
@@ -26,8 +21,9 @@ export class UserService {
     })
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`
+  async update(id: string, updateUserDto: UpdateUserDto) {
+    console.log('*** update, id:', id)
+    return this.prisma.user.update({ where: { id }, data: updateUserDto })
   }
 
   remove(id: number) {
