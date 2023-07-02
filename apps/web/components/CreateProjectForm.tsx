@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Project } from '@projektor/types'
+import TextInput from './TextInput'
 
 type Props = {}
 
@@ -35,46 +36,14 @@ export default function CreateProjectForm({}: Props) {
     <form onSubmit={handleSubmit} method="post">
       <div className="p-4 max-w-xl mx-auto grid grid-cols-1 gap-4">
         <div className="flex space-x-4 w-full">
-          <div className="w-full relative">
-            <input
-              id="project-title"
-              name="project_title"
-              type="text"
-              autoFocus
-              placeholder="Project title"
-              className="
-                border 
-                rounded 
-                w-full 
-                p-2 
-                peer 
-                outline-gray-400
-                placeholder-transparent"
-            />
-            <label
-              htmlFor="project-title"
-              className="
-                absolute 
-                left-2
-                -top-4
-                p-1
-                text-sm 
-                text-gray-400 
-                peer-focus:text-gray-400 
-                bg-white 
-                peer-placeholder-shown:top-2
-                peer-placeholder-shown:text-base
-                peer-placeholder-shown:p-0
-                peer-placeholder-shown:text-black
-                peer-focus:-top-4
-                peer-focus:text-sm
-                peer-focus:p-1
-                transition-all"
-            >
-              Project title
-            </label>
-          </div>
-          <div className="relative">
+          <TextInput
+            inputId="project-title"
+            type="text"
+            name="project_title"
+            label="Project Title"
+            autofocus
+          />
+          <div className="relative mt-4">
             <input
               type="color"
               id="project-theme"
