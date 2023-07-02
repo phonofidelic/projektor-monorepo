@@ -1,13 +1,13 @@
 import { Header } from '@projektor/ui'
-import LoginForm from '../../components/LoginForm'
+import RegistrationForm from '../../components/RegistrationForm'
 
 export default function Page() {
   return (
     <>
-      <Header title="Login" />
+      <Header title="Create a new account" />
       <div className="p-4">
         <div className="max-w-xl mx-auto">
-          <LoginForm />
+          <RegistrationForm />
         </div>
       </div>
     </>

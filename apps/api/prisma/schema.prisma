@@ -14,7 +14,7 @@ model User {
   id            String       @default(uuid()) @id
   email         String       @unique
   password      String
-  refreshToken  String       
+  refreshToken  String       @default("")  
   name          String?
   projects      Project[]
 }
