@@ -1,5 +1,4 @@
 import { Injectable, NotFoundException } from '@nestjs/common'
-import { UpdateProjectDto } from './dto/update-project.dto'
 import { PrismaService } from 'src/prisma.service'
 import { Prisma } from '@prisma/client'
 
@@ -26,8 +25,8 @@ export class ProjectsService {
     return foundProject
   }
 
-  update(id: number, updateProjectDto: UpdateProjectDto) {
-    return `This action updates a #${id} project`
+  update(id: string, data: Prisma.ProjectUpdateInput) {
+    return this.prisma.project.update({ data, where: { id } })
   }
 
   remove(id: number) {

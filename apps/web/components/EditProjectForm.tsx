@@ -24,7 +24,7 @@ export default function EditProjectForm({ project }: Props) {
     const formJson = Object.fromEntries(formData.entries())
 
     const response = await authFetch(
-      `${process.env.NEXT_PUBLIC_PROJEKTOR_API_BASE_URL}/projects`,
+      `${process.env.NEXT_PUBLIC_PROJEKTOR_API_BASE_URL}/projects/${project.id}`,
       {
         method: 'PATCH',
         body: JSON.stringify({ ...formJson, userId: user.id }),
@@ -36,7 +36,9 @@ export default function EditProjectForm({ project }: Props) {
 
     const { project: updatedProject }: { project: Project } =
       await response.json()
-    router.push(`/project/${updatedProject.slug}`)
+
+    console.log('updatedProject', updatedProject)
+    router.push(`/project/${project.slug}`)
   }
 
   if (!project) return <>Loading...</>
