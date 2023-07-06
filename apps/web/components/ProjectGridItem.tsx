@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { Project } from '@projektor/types'
 import { OptionsMenu, OptionsMenuItem } from './OptionsMenu'
+import { useRouter } from 'next/navigation'
 
 type Props = {
   project: Project
@@ -10,6 +11,8 @@ type Props = {
 
 export default function ProjectGridItem({ project }: Props) {
   const [optionsMenuOpen, setOptionsMenuOpen] = useState(false)
+  const router = useRouter()
+
   return (
     <Link key={project.id} href={`/project/${project.slug}`}>
       <div
@@ -32,7 +35,7 @@ export default function ProjectGridItem({ project }: Props) {
             <OptionsMenuItem
               onSelect={() => {
                 setOptionsMenuOpen(false)
-                console.log('TODO: Edit project')
+                router.push(`/project/${project.slug}/edit`)
               }}
             >
               Edit
