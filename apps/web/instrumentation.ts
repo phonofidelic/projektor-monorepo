@@ -1,3 +1,5 @@
 export async function register() {
-  await import('@projektor/mocks/initMocks')
+  if (process.env.NEXT_PUBLIC_MOCK_API === 'enabled') {
+    await import('@projektor/mocks/initMocks')
+  }
 }

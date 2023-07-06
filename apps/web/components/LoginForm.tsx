@@ -1,29 +1,21 @@
 'use client'
 import React from 'react'
-import TextInput from './TextInput'
+import { useRouter } from 'next/navigation'
+import TextInput from '@/components/TextInput'
+import { useUser } from '@/contexts/UserContext'
 
 type Props = {}
 
 export default function LoginForm({}: Props) {
+  const { login } = useUser()
+  const router = useRouter()
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-
-    const formData = new FormData(event.currentTarget)
-    const formJson = Object.fromEntries(formData.entries())
-
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_PROJEKTOR_API_BASE_URL}/auth/login`,
-      {
-        method: 'POST',
-        body: JSON.stringify(formJson),
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
-    )
-
-    console.log('response', await response.json())
+    await login(event)
+    router.back()
   }
+
   return (
     <form onSubmit={handleSubmit}>
       <TextInput inputId="email" type="email" name="email" label="Email" />

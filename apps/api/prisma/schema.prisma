@@ -17,12 +17,27 @@ model User {
   refreshToken  String       @default("")  
   name          String?
   projects      Project[]
+  tasks         Task[]
 }
 
 model Project {
   id          String     @default(uuid()) @id
   title       String
+  slug        String     @default("")
   description String?
+  theme       String?
   user        User       @relation(fields: [userId], references: [id])
   userId      String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @default(now())
+}
+
+model Task {
+  id            String      @default(uuid()) @id
+  user          User        @relation(fields: [userId], references: [id])
+  userId        String
+  title         String
+  description   String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @default(now())
 }

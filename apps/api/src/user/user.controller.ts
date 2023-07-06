@@ -1,7 +1,9 @@
-import { Controller, Get, Param, Delete } from '@nestjs/common'
+import { Controller, Get, Param, Delete, UseGuards } from '@nestjs/common'
 import { UserService } from './user.service'
 import { UUID } from 'crypto'
+import { AccessTokenGuard } from 'src/auth/guards/accessToken.guard'
 
+@UseGuards(AccessTokenGuard)
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
@@ -18,7 +20,7 @@ export class UserController {
 
   @Get(':id')
   findOne(@Param('id') id: UUID) {
-    return this.userService.findOne({ id })
+    return this.userService.getUserWithoutPassword({ id })
   }
 
   // @Patch(':id')

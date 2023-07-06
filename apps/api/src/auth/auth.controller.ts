@@ -50,7 +50,7 @@ export class AuthController {
     const tokens = await this.authService.loginUser(request.user)
     response.cookie('access_token', tokens.accessToken)
     response.cookie('refresh_token', tokens.refreshToken)
-    return tokens
+    return { ...tokens, userId: request.user.id }
   }
 
   @UseGuards(RefreshTokenGuard)

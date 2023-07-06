@@ -21,6 +21,15 @@ export class UserService {
     })
   }
 
+  async getUserWithoutPassword(
+    userWhereUniqueInput: Prisma.UserWhereUniqueInput,
+  ) {
+    return this.prisma.user.findUnique({
+      where: userWhereUniqueInput,
+      select: { id: true, email: true, name: true, password: false },
+    })
+  }
+
   async update(id: string, updateUserDto: UpdateUserDto) {
     return this.prisma.user.update({ where: { id }, data: updateUserDto })
   }

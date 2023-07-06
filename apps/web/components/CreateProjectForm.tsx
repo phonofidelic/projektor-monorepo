@@ -3,11 +3,14 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Project } from '@projektor/types'
 import TextInput from './TextInput'
+import { authFetch } from '@/utils'
+import { useUser } from '@/contexts/UserContext'
 
 type Props = {}
 
 export default function CreateProjectForm({}: Props) {
   const router = useRouter()
+  const { user } = useUser()
   const [themeValue, setThemeValue] = useState('#000000')
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -16,11 +19,11 @@ export default function CreateProjectForm({}: Props) {
     const formData = new FormData(event.currentTarget)
     const formJson = Object.fromEntries(formData.entries())
 
-    const response = await fetch(
+    const response = await authFetch(
       `${process.env.NEXT_PUBLIC_PROJEKTOR_API_BASE_URL}/projects`,
       {
         method: 'POST',
-        body: JSON.stringify(formJson),
+        body: JSON.stringify({ ...formJson, userId: user.id }),
         headers: {
           'Content-type': 'application/json',
         },
@@ -39,7 +42,7 @@ export default function CreateProjectForm({}: Props) {
           <TextInput
             inputId="project-title"
             type="text"
-            name="project_title"
+            name="title"
             label="Project Title"
             autofocus
           />
@@ -47,7 +50,7 @@ export default function CreateProjectForm({}: Props) {
             <input
               type="color"
               id="project-theme"
-              name="project_theme"
+              name="theme"
               onChange={(event) => setThemeValue(event.target.value)}
               className="
                 h-[42px] 
@@ -76,7 +79,7 @@ export default function CreateProjectForm({}: Props) {
         <div className="relative">
           <textarea
             id="project-description"
-            name="project_description"
+            name="description"
             placeholder="Description"
             className="
               outline-gray-400 
