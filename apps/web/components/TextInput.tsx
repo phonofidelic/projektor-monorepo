@@ -6,23 +6,29 @@ type Props = {
   name: string
   label: string
   autofocus?: boolean
+  value?: string
+  onChange?(event: React.ChangeEvent<HTMLInputElement>): void
 }
 
 export default function TextInput({
+  value,
   inputId,
   type,
   name,
   label,
   autofocus,
+  onChange,
 }: Props) {
   return (
     <div className="w-full relative mt-4">
       <input
+        value={value}
         id={inputId}
         name={name}
         type={type}
         autoFocus={autofocus}
         placeholder={label}
+        onChange={onChange}
         className="
                 border 
                 rounded 

@@ -1,6 +1,7 @@
 import { authFetch } from '@/utils'
 import { Project } from '@projektor/types'
 import { Header } from '@projektor/ui'
+import { notFound } from 'next/navigation'
 
 type FetchProjectResponse = {
   project?: Project
@@ -10,7 +11,6 @@ type Props = {
   params: {
     slug: string
   }
-  project: Project
 }
 
 export default async function ProjectDetailsPage({ params }: Props) {
@@ -20,17 +20,12 @@ export default async function ProjectDetailsPage({ params }: Props) {
     `${process.env.NEXT_PUBLIC_PROJEKTOR_API_BASE_URL}/projects/${slug}`
   )
 
+  console.log('*** response', response)
+
   const { project }: FetchProjectResponse = await response.json()
 
   if (!project) {
-    return (
-      <>
-        <Header title="Oops!" />
-        <div>
-          <p>We could not find your project :(</p>
-        </div>
-      </>
-    )
+    notFound()
   }
 
   return (

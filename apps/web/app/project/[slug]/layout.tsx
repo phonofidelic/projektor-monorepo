@@ -23,7 +23,6 @@ export default async function ProjectsLayout({ params, children }: Props) {
   )
 
   const { project }: FetchProjectResponse = await response.json()
-  console.log('project', project)
 
   return (
     <div>

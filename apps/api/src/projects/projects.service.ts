@@ -1,5 +1,4 @@
-import { Injectable } from '@nestjs/common'
-import { CreateProjectDto } from './dto/create-project.dto'
+import { Injectable, NotFoundException } from '@nestjs/common'
 import { UpdateProjectDto } from './dto/update-project.dto'
 import { PrismaService } from 'src/prisma.service'
 import { Prisma } from '@prisma/client'
@@ -17,8 +16,14 @@ export class ProjectsService {
     return this.prisma.project.findMany(data)
   }
 
-  findOne(data: Prisma.ProjectFindFirstArgs) {
-    return this.prisma.project.findFirst(data)
+  async findOne(data: Prisma.ProjectFindFirstArgs) {
+    const foundProject = await this.prisma.project.findFirst(data)
+
+    if (!foundProject) {
+      throw new NotFoundException('Could not find project')
+    }
+
+    return foundProject
   }
 
   update(id: number, updateProjectDto: UpdateProjectDto) {

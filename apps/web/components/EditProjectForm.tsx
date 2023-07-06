@@ -6,12 +6,16 @@ import TextInput from './TextInput'
 import { authFetch } from '@/utils'
 import { useUser } from '@/contexts/UserContext'
 
-type Props = {}
+type Props = {
+  project: Project
+}
 
-export default function CreateProjectForm({}: Props) {
+export default function EditProjectForm({ project }: Props) {
   const router = useRouter()
   const { user } = useUser()
-  const [themeValue, setThemeValue] = useState('#000000')
+  const [title, setTitle] = useState(project.title)
+  const [themeValue, setThemeValue] = useState(project.theme)
+  const [description, setDescription] = useState(project.description)
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -22,7 +26,7 @@ export default function CreateProjectForm({}: Props) {
     const response = await authFetch(
       `${process.env.NEXT_PUBLIC_PROJEKTOR_API_BASE_URL}/projects`,
       {
-        method: 'POST',
+        method: 'PATCH',
         body: JSON.stringify({ ...formJson, userId: user.id }),
         headers: {
           'Content-type': 'application/json',
@@ -30,23 +34,29 @@ export default function CreateProjectForm({}: Props) {
       }
     )
 
-    const { project }: { project: Project } = await response.json()
-    router.push(`/project/${project.slug}`)
+    const { project: updatedProject }: { project: Project } =
+      await response.json()
+    router.push(`/project/${updatedProject.slug}`)
   }
+
+  if (!project) return <>Loading...</>
 
   return (
     <form onSubmit={handleSubmit} method="post">
       <div className="p-4 max-w-xl mx-auto grid grid-cols-1 gap-4">
         <div className="flex space-x-4 w-full">
           <TextInput
+            value={title}
             inputId="project-title"
             type="text"
             name="title"
             label="Project Title"
             autofocus
+            onChange={(event) => setTitle(event.target.value)}
           />
           <div className="relative mt-4">
             <input
+              value={themeValue}
               type="color"
               id="project-theme"
               name="theme"
@@ -77,9 +87,11 @@ export default function CreateProjectForm({}: Props) {
         </div>
         <div className="relative">
           <textarea
+            value={description}
             id="project-description"
             name="description"
             placeholder="Description"
+            onChange={(event) => setDescription(event.target.value)}
             className="
               outline-gray-400 
               border 
@@ -114,7 +126,7 @@ export default function CreateProjectForm({}: Props) {
         <div className="w-full flex justify-center">
           <input
             type="submit"
-            value={'Create project'.toUpperCase()}
+            value={'Save Changes'.toUpperCase()}
             className="border rounded border-gray-200 hover:bg-gray-100 p-2 cursor-pointer"
           />
         </div>
