@@ -1,8 +1,8 @@
-import { authFetch } from '@/utils'
+import React from 'react'
 import { Project } from '@projektor/types'
 import { Header } from '@projektor/ui'
-import Link from 'next/link'
-import React from 'react'
+import { authFetch } from '@/utils'
+import EditProjectButton from '@/components/EditProjectButton'
 
 type FetchProjectResponse = {
   project?: Project
@@ -23,17 +23,14 @@ export default async function ProjectsLayout({ params, children }: Props) {
   )
 
   const { project }: FetchProjectResponse = await response.json()
+  console.log('project', project)
 
   return (
     <div>
       <div className="sticky top-0 bg-white z-20">
         {project && (
           <Header title={project.title}>
-            <Link href={'/projects/create'}>
-              <button className="rounded border border-gray-200 hover:bg-gray-100 p-2">
-                {'New project'.toUpperCase()}
-              </button>
-            </Link>
+            <EditProjectButton slug={project.slug} />
           </Header>
         )}
       </div>

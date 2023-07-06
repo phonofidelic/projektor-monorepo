@@ -32,7 +32,7 @@ export default function CreateProjectForm({}: Props) {
 
     // console.log('response', await response.json())
     const { project }: { project: Project } = await response.json()
-    router.push(`/projects/${project.slug}`)
+    router.push(`/project/${project.slug}`)
   }
 
   return (

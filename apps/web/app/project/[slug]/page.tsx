@@ -35,7 +35,6 @@ export default async function ProjectDetailsPage({ params }: Props) {
 
   return (
     <>
-      <Header title={project.title} />
       <div>
         <p>{project.description}</p>
       </div>
