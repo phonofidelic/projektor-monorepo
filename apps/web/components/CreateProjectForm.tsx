@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { Project } from '@projektor/types'
 import TextInput from './TextInput'
@@ -10,6 +10,7 @@ type Props = {}
 
 export default function CreateProjectForm({}: Props) {
   const router = useRouter()
+  const [isPending, startTransition] = useTransition()
   const { user } = useUser()
   const [themeValue, setThemeValue] = useState('#000000')
 
@@ -31,7 +32,13 @@ export default function CreateProjectForm({}: Props) {
     )
 
     const { project }: { project: Project } = await response.json()
-    router.push(`/project/${project.slug}`)
+
+    startTransition(() => router.push(`/project/${project.slug}`))
+    startTransition(() => router.refresh())
+  }
+
+  if (isPending) {
+    return <div>Loading...</div>
   }
 
   return (

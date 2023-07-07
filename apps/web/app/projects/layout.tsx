@@ -11,7 +11,7 @@ export default function ProjectsLayout({ children }: Props) {
     <div>
       <div className="sticky top-0 bg-white z-20">
         <Header title="Projects">
-          <Link href={'/projects/create'}>
+          <Link href={'/project/create'}>
             <button className="rounded border border-gray-200 hover:bg-gray-100 p-2">
               {'New project'.toUpperCase()}
             </button>
