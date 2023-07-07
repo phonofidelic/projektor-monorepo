@@ -8,7 +8,10 @@ export type Project = {
   createdAt: string
   updatedAt: string
   tasks: Task[]
+  status: ProjectStatus
 }
+
+export type ProjectStatus = 'active' | 'archived' | 'removed'
 
 export type Task = {
   id: string
