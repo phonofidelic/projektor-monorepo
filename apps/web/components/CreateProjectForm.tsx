@@ -1,12 +1,17 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { Project } from '@projektor/types'
+import TextInput from './TextInput'
+import { authFetch } from '@/utils'
+import { useUser } from '@/contexts/UserContext'
 
 type Props = {}
 
 export default function CreateProjectForm({}: Props) {
   const router = useRouter()
+  const [isPending, startTransition] = useTransition()
+  const { user } = useUser()
   const [themeValue, setThemeValue] = useState('#000000')
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -15,70 +20,43 @@ export default function CreateProjectForm({}: Props) {
     const formData = new FormData(event.currentTarget)
     const formJson = Object.fromEntries(formData.entries())
 
-    const response = await fetch(
+    const response = await authFetch(
       `${process.env.NEXT_PUBLIC_PROJEKTOR_API_BASE_URL}/projects`,
       {
         method: 'POST',
-        body: JSON.stringify(formJson),
+        body: JSON.stringify({ ...formJson, userId: user.id }),
         headers: {
           'Content-type': 'application/json',
         },
       }
     )
 
-    // console.log('response', await response.json())
     const { project }: { project: Project } = await response.json()
-    router.push(`/projects/${project.slug}`)
+
+    startTransition(() => router.push(`/project/${project.slug}`))
+    startTransition(() => router.refresh())
+  }
+
+  if (isPending) {
+    return <div>Loading...</div>
   }
 
   return (
     <form onSubmit={handleSubmit} method="post">
       <div className="p-4 max-w-xl mx-auto grid grid-cols-1 gap-4">
         <div className="flex space-x-4 w-full">
-          <div className="w-full relative">
-            <input
-              id="project-title"
-              name="project_title"
-              type="text"
-              autoFocus
-              placeholder="Project title"
-              className="
-                border 
-                rounded 
-                w-full 
-                p-2 
-                peer 
-                outline-gray-400
-                placeholder-transparent"
-            />
-            <label
-              htmlFor="project-title"
-              className="
-                absolute 
-                left-2
-                -top-4
-                p-1
-                text-sm 
-                text-gray-400 
-                peer-focus:text-gray-400 
-                bg-white 
-                peer-placeholder-shown:top-2
-                peer-placeholder-shown:text-base
-                peer-placeholder-shown:p-0
-                peer-placeholder-shown:text-black
-                peer-focus:-top-4
-                peer-focus:text-sm
-                peer-focus:p-1
-                transition-all"
-            >
-              Project title
-            </label>
-          </div>
-          <div className="relative">
+          <TextInput
+            inputId="project-title"
+            type="text"
+            name="title"
+            label="Project Title"
+            autofocus
+          />
+          <div className="relative mt-4">
             <input
               type="color"
               id="project-theme"
-              name="project_theme"
+              name="theme"
               onChange={(event) => setThemeValue(event.target.value)}
               className="
                 h-[42px] 
@@ -107,7 +85,7 @@ export default function CreateProjectForm({}: Props) {
         <div className="relative">
           <textarea
             id="project-description"
-            name="project_description"
+            name="description"
             placeholder="Description"
             className="
               outline-gray-400 

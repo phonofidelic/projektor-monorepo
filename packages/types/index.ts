@@ -19,3 +19,9 @@ export type Task = {
   createdAt: string
   updatedAt: string
 }
+
+export type User = {
+  id: string
+  email: string
+  name?: string
+}
