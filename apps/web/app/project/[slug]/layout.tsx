@@ -26,16 +26,17 @@ export default async function ProjectsLayout({ params, children }: Props) {
 
   return (
     <div>
-      <div className="sticky top-0 bg-white z-20">
+      <div
+        className="sticky top-0 bg-white z-20"
+        style={{ borderBottom: `2px solid ${project?.theme || 'white'}` }}
+      >
         {project && (
           <Header title={project.title}>
             <EditProjectButton slug={project.slug} />
           </Header>
         )}
       </div>
-      <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-        {children}
-      </div>
+      <div className="m-aut">{children}</div>
     </div>
   )
 }

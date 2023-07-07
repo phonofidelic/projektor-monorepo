@@ -1,5 +1,5 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useState, useTransition } from 'react'
 import { useRouter } from 'next/navigation'
 import { Project } from '@projektor/types'
 import TextInput from './TextInput'
@@ -12,6 +12,7 @@ type Props = {
 
 export default function EditProjectForm({ project }: Props) {
   const router = useRouter()
+  const [isPending, startTransition] = useTransition()
   const { user } = useUser()
   const [title, setTitle] = useState(project.title)
   const [themeValue, setThemeValue] = useState(project.theme)
@@ -38,10 +39,14 @@ export default function EditProjectForm({ project }: Props) {
       await response.json()
 
     console.log('updatedProject', updatedProject)
-    router.push(`/project/${project.slug}`)
+
+    startTransition(() => router.back())
+    startTransition(() => router.refresh())
   }
 
-  if (!project) return <>Loading...</>
+  if (isPending) {
+    return <div>Loading...</div>
+  }
 
   return (
     <form onSubmit={handleSubmit} method="post">

@@ -26,7 +26,7 @@ export default async function ProjectDetailsPage({ params }: Props) {
   }
 
   return (
-    <>
+    <div className="p-4">
       <div>
         <p>{project.description}</p>
       </div>
@@ -36,6 +36,6 @@ export default async function ProjectDetailsPage({ params }: Props) {
             <li key={task.id}>{task.description}</li>
           ))}
       </ul>
-    </>
+    </div>
   )
 }

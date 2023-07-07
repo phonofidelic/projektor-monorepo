@@ -1,6 +1,6 @@
 import { Project } from '@projektor/types'
 import { Header } from '@projektor/ui'
-import ProjectGridItem from '../../components/ProjectGridItem'
+import ProjectGridItem from '@/components/ProjectGridItem'
 import Link from 'next/link'
 import { authFetch } from '@/utils'
 
