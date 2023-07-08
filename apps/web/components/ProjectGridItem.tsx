@@ -1,11 +1,12 @@
 'use client'
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { Project, ProjectStatus } from '@projektor/types'
-import { OptionsMenu, OptionsMenuItem } from './OptionsMenu'
 import { useRouter } from 'next/navigation'
-import { authFetch } from '@/utils'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { Project, ProjectStatus } from '@projektor/types'
+import { authFetch } from '@/utils'
+import { OptionsMenu, OptionsMenuItem } from './OptionsMenu'
+import ProjectGridItemSkeleton from './ProjectGridItemSkeleton'
 
 const editProject = async (projectId: string, status: ProjectStatus) => {
   const response = await authFetch(
@@ -38,22 +39,17 @@ export default function ProjectGridItem({ project }: Props) {
   })
 
   if (mutation.isLoading) {
-    return (
-      <div className="p-4 flex space-x-2 border border-gray-200 rounded bg-gray-100 animate-pulse transition-colors">
-        'Loading...'
-      </div>
-    )
+    return <ProjectGridItemSkeleton />
   }
 
   return (
     <Link key={project.id} href={`/project/${project.slug}`}>
       <div
-        className="p-4 flex space-x-2 border border-gray-200 rounded hover:bg-gray-100 transition-colors"
+        className="h-[82px] p-4 flex space-x-2 border border-gray-200 rounded hover:bg-gray-100 transition-colors"
         style={{
           borderLeft: `4px solid ${project.theme}`,
         }}
       >
-        <div></div>
         <div className="truncate flex-1">
           <h2 className="truncate whitespace-nowrap">
             {project.title} | {project.status}
