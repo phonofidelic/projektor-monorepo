@@ -5,12 +5,24 @@ import { Project, ProjectStatus } from '@projektor/types'
 import { OptionsMenu, OptionsMenuItem } from './OptionsMenu'
 import { useRouter } from 'next/navigation'
 import { authFetch } from '@/utils'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 
-const PROJECT_STATUS = {
-  ACTIVE: 'active',
-  ARCHIVED: 'archived',
-  REMOVED: 'removed',
-} as const
+const editProject = async (projectId: string, status: ProjectStatus) => {
+  const response = await authFetch(
+    `${process.env.NEXT_PUBLIC_PROJEKTOR_API_BASE_URL}/projects/${projectId}`,
+    {
+      method: 'PATCH',
+      body: JSON.stringify({
+        status,
+      }),
+      headers: {
+        'Content-type': 'application/json',
+      },
+    }
+  )
+
+  return response.json()
+}
 
 type Props = {
   project: Project
@@ -18,25 +30,19 @@ type Props = {
 
 export default function ProjectGridItem({ project }: Props) {
   const [optionsMenuOpen, setOptionsMenuOpen] = useState(false)
-  const router = useRouter()
+  const queryClient = useQueryClient()
+  const mutation = useMutation({
+    mutationFn: (update: { projectId: string; status: ProjectStatus }) =>
+      editProject(update.projectId, update.status),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['projects'] }),
+  })
 
-  const handleSetProjectStatus = async (
-    projectId: string,
-    status: ProjectStatus
-  ) => {
-    await authFetch(
-      `${process.env.NEXT_PUBLIC_PROJEKTOR_API_BASE_URL}/projects/${projectId}`,
-      {
-        method: 'PATCH',
-        body: JSON.stringify({
-          status,
-        }),
-        headers: {
-          'Content-type': 'application/json',
-        },
-      }
+  if (mutation.isLoading) {
+    return (
+      <div className="p-4 flex space-x-2 border border-gray-200 rounded bg-gray-100 animate-pulse transition-colors">
+        'Loading...'
+      </div>
     )
-    router.refresh()
   }
 
   return (
@@ -62,7 +68,7 @@ export default function ProjectGridItem({ project }: Props) {
           >
             <ProjectOptionMenuItems
               project={project}
-              onSetProjectStatus={handleSetProjectStatus}
+              onSetProjectStatus={mutation.mutate}
               onCloseMenu={() => setOptionsMenuOpen(false)}
             />
           </OptionsMenu>
@@ -78,7 +84,10 @@ function ProjectOptionMenuItems({
   onCloseMenu,
 }: {
   project: Project
-  onSetProjectStatus: (projectId: string, projectStatus: ProjectStatus) => void
+  onSetProjectStatus: (update: {
+    projectId: string
+    status: ProjectStatus
+  }) => void
   onCloseMenu: () => void
 }) {
   const router = useRouter()
@@ -96,7 +105,7 @@ function ProjectOptionMenuItems({
           </OptionsMenuItem>
           <OptionsMenuItem
             onSelect={() => {
-              onSetProjectStatus(project.id, PROJECT_STATUS.ARCHIVED)
+              onSetProjectStatus({ projectId: project.id, status: 'archived' })
               onCloseMenu()
             }}
           >
@@ -104,7 +113,7 @@ function ProjectOptionMenuItems({
           </OptionsMenuItem>
           <OptionsMenuItem
             onSelect={() => {
-              onSetProjectStatus(project.id, PROJECT_STATUS.REMOVED)
+              onSetProjectStatus({ projectId: project.id, status: 'removed' })
               onCloseMenu()
             }}
           >
@@ -117,7 +126,7 @@ function ProjectOptionMenuItems({
         <>
           <OptionsMenuItem
             onSelect={() => {
-              onSetProjectStatus(project.id, PROJECT_STATUS.ACTIVE)
+              onSetProjectStatus({ projectId: project.id, status: 'active' })
               onCloseMenu()
             }}
           >
@@ -125,7 +134,7 @@ function ProjectOptionMenuItems({
           </OptionsMenuItem>
           <OptionsMenuItem
             onSelect={() => {
-              onSetProjectStatus(project.id, PROJECT_STATUS.REMOVED)
+              onSetProjectStatus({ projectId: project.id, status: 'removed' })
               onCloseMenu()
             }}
           >
@@ -138,7 +147,7 @@ function ProjectOptionMenuItems({
         <>
           <OptionsMenuItem
             onSelect={() => {
-              onSetProjectStatus(project.id, PROJECT_STATUS.ACTIVE)
+              onSetProjectStatus({ projectId: project.id, status: 'active' })
               onCloseMenu()
             }}
           >
@@ -146,7 +155,7 @@ function ProjectOptionMenuItems({
           </OptionsMenuItem>
           <OptionsMenuItem
             onSelect={() => {
-              onSetProjectStatus(project.id, PROJECT_STATUS.ARCHIVED)
+              onSetProjectStatus({ projectId: project.id, status: 'archived' })
               onCloseMenu()
             }}
           >

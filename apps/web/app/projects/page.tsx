@@ -1,8 +1,11 @@
+import React from 'react'
 import { Project } from '@projektor/types'
 import { Header } from '@projektor/ui'
 import ProjectGridItem from '@/components/ProjectGridItem'
 import Link from 'next/link'
 import { authFetch } from '@/utils'
+import ProjectStatusFilter from '@/components/ProjectStatusFilter'
+import ProjectList from '@/components/ProjectList'
 
 type FetchProjectsResponse = {
   projects?: Project[]
@@ -15,9 +18,21 @@ export default async function ProjectsPage() {
 
   const { projects }: FetchProjectsResponse = await response.json()
 
-  if (!projects) {
-    return 'Your projects will live here'
-  }
-
-  return projects.map((project) => <ProjectGridItem project={project} />)
+  return (
+    <>
+      <div className="sticky top-0 bg-white z-20">
+        <Header title="Projects">
+          <div className="flex space-x-2">
+            <ProjectStatusFilter />
+            <Link href={'/project/create'}>
+              <button className="rounded border border-gray-200 hover:bg-gray-100 p-2">
+                {'New project'.toUpperCase()}
+              </button>
+            </Link>
+          </div>
+        </Header>
+      </div>
+      <ProjectList initialProjects={projects} />
+    </>
+  )
 }

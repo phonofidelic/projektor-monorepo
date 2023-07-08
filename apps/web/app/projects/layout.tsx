@@ -1,5 +1,5 @@
-import { Header } from '@projektor/ui'
-import Link from 'next/link'
+'use client'
+import { ProjectFilterContextProvider } from '@/contexts/ProjectsFilterContext'
 import React from 'react'
 
 type Props = {
@@ -7,20 +7,5 @@ type Props = {
 }
 
 export default function ProjectsLayout({ children }: Props) {
-  return (
-    <div>
-      <div className="sticky top-0 bg-white z-20">
-        <Header title="Projects">
-          <Link href={'/project/create'}>
-            <button className="rounded border border-gray-200 hover:bg-gray-100 p-2">
-              {'New project'.toUpperCase()}
-            </button>
-          </Link>
-        </Header>
-      </div>
-      <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
-        {children}
-      </div>
-    </div>
-  )
+  return <ProjectFilterContextProvider>{children}</ProjectFilterContextProvider>
 }

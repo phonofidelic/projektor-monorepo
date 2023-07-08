@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers'
 import { UserProvider } from '../contexts/UserContext'
 import './globals.css'
+import Providers from '@/components/Providers'
 
 export default async function RootLayout({
   children,
@@ -16,13 +17,13 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className="p-1 md:p-8">
-        <UserProvider
-          accessToken={accessToken?.value}
-          refreshToken={refreshToken?.value}
+        <Providers
+          accessToken={accessToken.value}
+          refreshToken={refreshToken.value}
         >
           {children}
           {authModal}
-        </UserProvider>
+        </Providers>
       </body>
     </html>
   )
