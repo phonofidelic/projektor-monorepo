@@ -19,7 +19,7 @@ export const ProjectFilterContextProvider = ({
   children,
 }: ProjectFilterContextProviderProps) => {
   const [statusFilter, setStatusFilterState] = useState<ProjectStatus>(
-    localStorage.getItem('filter') as ProjectStatus
+    (localStorage?.getItem('filter') as ProjectStatus) ?? 'active'
   )
 
   const setStatusFilter = (statusFilter: ProjectStatus) => {

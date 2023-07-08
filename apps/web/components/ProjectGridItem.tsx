@@ -7,6 +7,7 @@ import { Project, ProjectStatus } from '@projektor/types'
 import { authFetch } from '@/utils'
 import { OptionsMenu, OptionsMenuItem } from './OptionsMenu'
 import ProjectGridItemSkeleton from './ProjectGridItemSkeleton'
+import OptionsIcon from './OptionsIcon'
 
 const editProject = async (projectId: string, status: ProjectStatus) => {
   const response = await authFetch(
@@ -58,6 +59,8 @@ export default function ProjectGridItem({ project }: Props) {
         </div>
         <div className="w-10 flex flex-col justify-center">
           <OptionsMenu
+            menuButtonClassName="w-10 h-10 hover:bg-gray-200 p-auto rounded-full"
+            menuButtonContent={<OptionsIcon color="text-gray-400" />}
             open={optionsMenuOpen}
             onOpen={() => setOptionsMenuOpen(true)}
             onClose={() => setOptionsMenuOpen(false)}

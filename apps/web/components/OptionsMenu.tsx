@@ -4,6 +4,8 @@ import clsx from 'clsx'
 import OptionsIcon from './OptionsIcon'
 
 type OptionsMenuProps = {
+  menuButtonClassName?: string
+  menuButtonContent: React.ReactNode
   open: boolean
   onOpen(): void
   onClose(): void
@@ -11,6 +13,8 @@ type OptionsMenuProps = {
 }
 
 export function OptionsMenu({
+  menuButtonClassName = '',
+  menuButtonContent,
   open,
   onOpen,
   onClose,
@@ -31,7 +35,6 @@ export function OptionsMenu({
       className="relative h-10"
       onKeyDown={(event: React.KeyboardEvent<HTMLDivElement>) => {
         if (open && event.key === 'Escape') {
-          console.log('bla')
           onClose()
         }
       }}
@@ -46,14 +49,14 @@ export function OptionsMenu({
         />
       )}
       <button
-        className="justify-self-center p-auto rounded-full w-10 h-10 hover:bg-gray-200"
+        className={clsx('', menuButtonClassName)}
         onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
           event.preventDefault()
           onOpen()
           setClickOrigin(event.currentTarget.getBoundingClientRect().bottom)
         }}
       >
-        <OptionsIcon color="text-gray-400" />
+        {menuButtonContent}
       </button>
       {open && (
         <menu
