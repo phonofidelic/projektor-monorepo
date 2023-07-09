@@ -8,6 +8,7 @@ import { authFetch } from '@/utils'
 import { OptionsMenu, OptionsMenuItem } from './OptionsMenu'
 import ProjectGridItemSkeleton from './ProjectGridItemSkeleton'
 import OptionsIcon from './OptionsIcon'
+import ActivateIcon from './ActivateIcon'
 
 const editProject = async (projectId: string, status: ProjectStatus) => {
   const response = await authFetch(
@@ -46,7 +47,7 @@ export default function ProjectGridItem({ project }: Props) {
   return (
     <Link key={project.id} href={`/project/${project.slug}`}>
       <div
-        className="h-[82px] p-4 flex space-x-2 border border-gray-200 rounded hover:bg-gray-100 transition-colors"
+        className="h-[82px] p-4 flex space-x-2 border border-gray-200 rounded bg-white hover:bg-gray-100 transition-colors"
         style={{
           borderLeft: `4px solid ${project.theme}`,
         }}
@@ -129,7 +130,7 @@ function ProjectOptionMenuItems({
               onCloseMenu()
             }}
           >
-            Activate
+            <ActivateLabel />
           </OptionsMenuItem>
           <OptionsMenuItem
             onSelect={() => {
@@ -150,7 +151,7 @@ function ProjectOptionMenuItems({
               onCloseMenu()
             }}
           >
-            Activate
+            <ActivateLabel />
           </OptionsMenuItem>
           <OptionsMenuItem
             onSelect={() => {
@@ -166,4 +167,15 @@ function ProjectOptionMenuItems({
       console.error(`Invalid project status "${project.status}"`)
       return null
   }
+}
+
+function ActivateLabel() {
+  return (
+    <div className="flex space-x-2">
+      <div className="flex flex-col justify-center">
+        <ActivateIcon color="text-gray-400" />
+      </div>
+      <p>Activate</p>
+    </div>
+  )
 }
