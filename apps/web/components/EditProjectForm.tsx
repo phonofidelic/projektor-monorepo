@@ -40,8 +40,13 @@ export default function EditProjectForm({ project }: Props) {
 
     console.log('updatedProject', updatedProject)
 
-    startTransition(() => router.back())
-    startTransition(() => router.refresh())
+    const params = new URL(document.location.href).searchParams
+    const referrer = params.get('ref')
+
+    startTransition(() => {
+      console.log('history.state', history.state)
+      router.push(referrer)
+    })
   }
 
   if (isPending) {

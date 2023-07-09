@@ -1,7 +1,7 @@
 'use client'
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Project, ProjectStatus } from '@projektor/types'
 import { authFetch } from '@/utils'
@@ -36,6 +36,7 @@ type Props = {
 
 export default function ProjectGridItem({ project }: Props) {
   const [optionsMenuOpen, setOptionsMenuOpen] = useState(false)
+  const pathname = usePathname()
   const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: (update: { projectId: string; status: ProjectStatus }) =>
@@ -69,6 +70,7 @@ export default function ProjectGridItem({ project }: Props) {
           >
             <ProjectOptionMenuItems
               project={project}
+              referrerPathname={pathname}
               onSetProjectStatus={mutation.mutate}
               onCloseMenu={() => setOptionsMenuOpen(false)}
             />
@@ -81,10 +83,12 @@ export default function ProjectGridItem({ project }: Props) {
 
 function ProjectOptionMenuItems({
   project,
+  referrerPathname,
   onSetProjectStatus,
   onCloseMenu,
 }: {
   project: Project
+  referrerPathname: string
   onSetProjectStatus: (update: {
     projectId: string
     status: ProjectStatus
@@ -98,7 +102,9 @@ function ProjectOptionMenuItems({
         <>
           <OptionsMenuItem
             onSelect={() => {
-              router.push(`/project/${project.slug}/edit`)
+              router.push(
+                `/project/${project.slug}/edit?ref=${referrerPathname}`
+              )
               onCloseMenu()
             }}
           >

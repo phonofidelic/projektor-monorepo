@@ -1,6 +1,7 @@
 import { authFetch } from '@/utils'
 import { Project } from '@projektor/types'
 import { notFound } from 'next/navigation'
+import { NextRequest } from 'next/server'
 
 type FetchProjectResponse = {
   project?: Project
@@ -14,6 +15,10 @@ type Props = {
 
 export default async function ProjectDetailsPage({ params }: Props) {
   const { slug } = params
+
+  // const request = new NextRequest()
+
+  // console.log('*** request.nextUrl:', request)
 
   const response = await authFetch(
     `${process.env.NEXT_PUBLIC_PROJEKTOR_API_BASE_URL}/projects/${slug}`
