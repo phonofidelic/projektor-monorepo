@@ -7,8 +7,11 @@ import { Project, ProjectStatus } from '@projektor/types'
 import { authFetch } from '@/utils'
 import { OptionsMenu, OptionsMenuItem } from './OptionsMenu'
 import ProjectGridItemSkeleton from './ProjectGridItemSkeleton'
-import OptionsIcon from './OptionsIcon'
-import ActivateIcon from './ActivateIcon'
+import OptionsIcon from './icons/OptionsIcon'
+import ActivateIcon from './icons/ActivateIcon'
+import EditIcon from './icons/EditIcon'
+import ArchiveIcon from './icons/ArchiveIcon'
+import RemoveIcon from './icons/TrashIcon'
 
 const editProject = async (projectId: string, status: ProjectStatus) => {
   const response = await authFetch(
@@ -101,7 +104,7 @@ function ProjectOptionMenuItems({
               onCloseMenu()
             }}
           >
-            Edit
+            <EditLabel />
           </OptionsMenuItem>
           <OptionsMenuItem
             onSelect={() => {
@@ -109,7 +112,7 @@ function ProjectOptionMenuItems({
               onCloseMenu()
             }}
           >
-            Archive
+            <ArchiveLabel />
           </OptionsMenuItem>
           <OptionsMenuItem
             onSelect={() => {
@@ -117,7 +120,7 @@ function ProjectOptionMenuItems({
               onCloseMenu()
             }}
           >
-            Move to trash
+            <RemoveLabel />
           </OptionsMenuItem>
         </>
       )
@@ -138,7 +141,7 @@ function ProjectOptionMenuItems({
               onCloseMenu()
             }}
           >
-            Move to trash
+            <RemoveLabel />
           </OptionsMenuItem>
         </>
       )
@@ -159,7 +162,7 @@ function ProjectOptionMenuItems({
               onCloseMenu()
             }}
           >
-            Archive
+            <ArchiveLabel />
           </OptionsMenuItem>
         </>
       )
@@ -172,10 +175,51 @@ function ProjectOptionMenuItems({
 function ActivateLabel() {
   return (
     <div className="flex space-x-2">
-      <div className="flex flex-col justify-center">
-        <ActivateIcon color="text-gray-400" />
+      <div className="flex flex-col justify-center w-5">
+        <div className="m-auto">
+          <ActivateIcon color="fill-gray-700" />
+        </div>
       </div>
       <p>Activate</p>
+    </div>
+  )
+}
+
+function ArchiveLabel() {
+  return (
+    <div className="flex space-x-2">
+      <div className="flex flex-col justify-center w-5">
+        <div className="m-auto">
+          <ArchiveIcon color="fill-gray-700" />
+        </div>
+      </div>
+      <p>Archive</p>
+    </div>
+  )
+}
+
+function EditLabel() {
+  return (
+    <div className="flex space-x-2">
+      <div className="flex flex-col justify-center w-5">
+        <div className="m-auto">
+          <EditIcon color="fill-gray-700" />
+        </div>
+      </div>
+      <p>Edit</p>
+    </div>
+  )
+}
+
+function RemoveLabel() {
+  return (
+    <div className="flex space-x-2">
+      <div className="flex flex-col justify-center w-5">
+        <div className="m-auto">
+          <RemoveIcon color="fill-gray-700" />
+        </div>
+      </div>
+      <p>Move to trash</p>
     </div>
   )
 }

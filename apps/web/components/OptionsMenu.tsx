@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
 import clsx from 'clsx'
-import OptionsIcon from './OptionsIcon'
+import OptionsIcon from './icons/OptionsIcon'
 
 type OptionsMenuProps = {
   menuButtonClassName?: string
