@@ -56,9 +56,7 @@ export default function ProjectGridItem({ project }: Props) {
         }}
       >
         <div className="truncate flex-1">
-          <h2 className="truncate whitespace-nowrap">
-            {project.title} | {project.status}
-          </h2>
+          <h2 className="truncate whitespace-nowrap">{project.title}</h2>
           <p className="text-gray-400">{project.description}</p>
         </div>
         <div className="w-10 flex flex-col justify-center">
