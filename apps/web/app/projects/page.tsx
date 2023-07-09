@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { authFetch } from '@/utils'
 import ProjectStatusFilter from '@/components/ProjectStatusFilter'
 import ProjectList from '@/components/ProjectList'
+import AddIcon from '@/components/icons/AddIcon'
+import CreateProjectButton from '@/components/CreateProjectButton'
 
 type FetchProjectsResponse = {
   projects?: Project[]
@@ -23,11 +25,7 @@ export default async function ProjectsPage() {
         <Header title="Projects">
           <div className="flex space-x-2">
             <ProjectStatusFilter />
-            <Link href={'/project/create'}>
-              <button className="rounded border border-gray-200 hover:bg-gray-100 p-2">
-                {'New project'.toUpperCase()}
-              </button>
-            </Link>
+            <CreateProjectButton />
           </div>
         </Header>
       </div>
