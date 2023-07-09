@@ -1,5 +1,5 @@
 import { cookies } from 'next/headers'
-import { UserProvider } from '../contexts/UserContext'
+import Providers from '@/components/Providers'
 import './globals.css'
 
 export default async function RootLayout({
@@ -10,19 +10,16 @@ export default async function RootLayout({
   authModal: React.ReactNode
 }) {
   const cookieStore = cookies()
-  const accessToken = cookieStore.get('access_token')
-  const refreshToken = cookieStore.get('refresh_token')
+  const accessToken = cookieStore.get('access_token')?.value
+  const refreshToken = cookieStore.get('refresh_token')?.value
 
   return (
     <html lang="en">
-      <body className="p-1 md:p-8">
-        <UserProvider
-          accessToken={accessToken?.value}
-          refreshToken={refreshToken?.value}
-        >
+      <body className="p-1 md:p-8 bg-white">
+        <Providers accessToken={accessToken} refreshToken={refreshToken}>
           {children}
           {authModal}
-        </UserProvider>
+        </Providers>
       </body>
     </html>
   )

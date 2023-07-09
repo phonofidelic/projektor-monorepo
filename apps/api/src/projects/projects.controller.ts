@@ -9,6 +9,7 @@ import {
   UseGuards,
   Request,
   BadRequestException,
+  Query,
 } from '@nestjs/common'
 import { ProjectsService } from './projects.service'
 import { CreateProjectDto } from './dto/create-project.dto'
@@ -40,13 +41,18 @@ export class ProjectsController {
   }
 
   @Get()
-  async findAll(@Request() request: any) {
+  async findAllByStatus(
+    @Request() request: any,
+    @Query('filter') filter: string,
+  ) {
     const userId = request.user.userId as string
 
     if (!userId) {
       throw new BadRequestException('User does not exist')
     }
-    const projects = await this.projectsService.findAll({ where: { userId } })
+    const projects = await this.projectsService.findAll({
+      where: { userId, status: filter },
+    })
 
     return { projects }
   }
