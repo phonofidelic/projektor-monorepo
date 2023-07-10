@@ -2,7 +2,7 @@ import * as React from 'react'
 
 type HeaderProps = {
   title: string
-  backButton: React.ReactNode
+  backButton?: React.ReactNode
   children?: React.ReactNode
 }
 export const Header = ({ title, backButton, children }: HeaderProps) => {
