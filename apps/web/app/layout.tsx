@@ -15,7 +15,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className="p-1 md:p-8 bg-white">
+      <body className="p-1 md:p-8 bg-white text-gray-700">
         <Providers accessToken={accessToken} refreshToken={refreshToken}>
           {children}
           {authModal}
