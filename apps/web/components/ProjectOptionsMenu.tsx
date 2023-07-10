@@ -37,8 +37,8 @@ export default function ProjectOptionsMenu({ project }: Props) {
   const [optionsMenuOpen, setOptionsMenuOpen] = useState(false)
   return (
     <OptionsMenu
-      menuButtonClassName="w-10 h-10 hover:bg-gray-200 p-auto rounded-full"
-      menuButtonContent={<OptionsIcon color="text-gray-400" />}
+      menuButtonClassName="rounded-full w-[42px] h-[42px] border border-gray-200 hover:bg-gray-100"
+      menuButtonContent={<OptionsIcon color="fill-gray-700" />}
       open={optionsMenuOpen}
       onOpen={() => setOptionsMenuOpen(true)}
       onClose={() => setOptionsMenuOpen(false)}

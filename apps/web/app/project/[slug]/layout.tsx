@@ -31,7 +31,10 @@ export default async function ProjectsLayout({ params, children }: Props) {
         style={{ borderBottom: `2px solid ${project?.theme || 'white'}` }}
       >
         {project && (
-          <Header title={project.title} backButton={<BackButton />}>
+          <Header
+            title={project.title}
+            backButton={<BackButton pushUrl="/projects" />}
+          >
             <ProjectOptionsMenu project={project} />
           </Header>
         )}

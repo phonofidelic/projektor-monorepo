@@ -1,14 +1,7 @@
 import React from 'react'
+import { IconProps } from './IconProps'
 
-type Color = 'gray'
-
-type Shade = '400'
-
-type Props = {
-  color: `text-${Color}-${Shade}`
-}
-
-export default function OptionsIcon({ color }: Props) {
+export default function OptionsIcon({ color }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
