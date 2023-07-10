@@ -1,7 +1,6 @@
 import { authFetch } from '@/utils'
 import { Project } from '@projektor/types'
 import { notFound } from 'next/navigation'
-import { NextRequest } from 'next/server'
 
 type FetchProjectResponse = {
   project?: Project

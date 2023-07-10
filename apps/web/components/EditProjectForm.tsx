@@ -24,7 +24,7 @@ export default function EditProjectForm({ project }: Props) {
     const formData = new FormData(event.currentTarget)
     const formJson = Object.fromEntries(formData.entries())
 
-    const response = await authFetch(
+    await authFetch(
       `${process.env.NEXT_PUBLIC_PROJEKTOR_API_BASE_URL}/projects/${project.id}`,
       {
         method: 'PATCH',
@@ -35,17 +35,12 @@ export default function EditProjectForm({ project }: Props) {
       }
     )
 
-    const { project: updatedProject }: { project: Project } =
-      await response.json()
-
-    console.log('updatedProject', updatedProject)
-
     const params = new URL(document.location.href).searchParams
     const referrer = params.get('ref')
 
     startTransition(() => {
-      console.log('history.state', history.state)
       router.push(referrer)
+      router.refresh()
     })
   }
 

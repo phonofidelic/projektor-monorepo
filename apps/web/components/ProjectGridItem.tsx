@@ -1,17 +1,13 @@
 'use client'
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { Project, ProjectStatus } from '@projektor/types'
 import { authFetch } from '@/utils'
-import { OptionsMenu, OptionsMenuItem } from './OptionsMenu'
+import { OptionsMenu } from './OptionsMenu'
 import ProjectGridItemSkeleton from './ProjectGridItemSkeleton'
 import OptionsIcon from './icons/OptionsIcon'
-import ActivateIcon from './icons/ActivateIcon'
-import EditIcon from './icons/EditIcon'
-import ArchiveIcon from './icons/ArchiveIcon'
-import RemoveIcon from './icons/TrashIcon'
+import ProjectOptionMenuItems from './ProjectOptionMenuItems'
 
 const editProject = async (projectId: string, status: ProjectStatus) => {
   const response = await authFetch(
@@ -36,7 +32,6 @@ type Props = {
 
 export default function ProjectGridItem({ project }: Props) {
   const [optionsMenuOpen, setOptionsMenuOpen] = useState(false)
-  const pathname = usePathname()
   const queryClient = useQueryClient()
   const mutation = useMutation({
     mutationFn: (update: { projectId: string; status: ProjectStatus }) =>
@@ -70,7 +65,6 @@ export default function ProjectGridItem({ project }: Props) {
           >
             <ProjectOptionMenuItems
               project={project}
-              referrerPathname={pathname}
               onSetProjectStatus={mutation.mutate}
               onCloseMenu={() => setOptionsMenuOpen(false)}
             />
@@ -78,152 +72,5 @@ export default function ProjectGridItem({ project }: Props) {
         </div>
       </div>
     </Link>
-  )
-}
-
-function ProjectOptionMenuItems({
-  project,
-  referrerPathname,
-  onSetProjectStatus,
-  onCloseMenu,
-}: {
-  project: Project
-  referrerPathname: string
-  onSetProjectStatus: (update: {
-    projectId: string
-    status: ProjectStatus
-  }) => void
-  onCloseMenu: () => void
-}) {
-  const router = useRouter()
-  switch (project.status) {
-    case 'active':
-      return (
-        <>
-          <OptionsMenuItem
-            onSelect={() => {
-              router.push(
-                `/project/${project.slug}/edit?ref=${referrerPathname}`
-              )
-              onCloseMenu()
-            }}
-          >
-            <EditLabel />
-          </OptionsMenuItem>
-          <OptionsMenuItem
-            onSelect={() => {
-              onSetProjectStatus({ projectId: project.id, status: 'archived' })
-              onCloseMenu()
-            }}
-          >
-            <ArchiveLabel />
-          </OptionsMenuItem>
-          <OptionsMenuItem
-            onSelect={() => {
-              onSetProjectStatus({ projectId: project.id, status: 'removed' })
-              onCloseMenu()
-            }}
-          >
-            <RemoveLabel />
-          </OptionsMenuItem>
-        </>
-      )
-    case 'archived':
-      return (
-        <>
-          <OptionsMenuItem
-            onSelect={() => {
-              onSetProjectStatus({ projectId: project.id, status: 'active' })
-              onCloseMenu()
-            }}
-          >
-            <ActivateLabel />
-          </OptionsMenuItem>
-          <OptionsMenuItem
-            onSelect={() => {
-              onSetProjectStatus({ projectId: project.id, status: 'removed' })
-              onCloseMenu()
-            }}
-          >
-            <RemoveLabel />
-          </OptionsMenuItem>
-        </>
-      )
-    case 'removed':
-      return (
-        <>
-          <OptionsMenuItem
-            onSelect={() => {
-              onSetProjectStatus({ projectId: project.id, status: 'active' })
-              onCloseMenu()
-            }}
-          >
-            <ActivateLabel />
-          </OptionsMenuItem>
-          <OptionsMenuItem
-            onSelect={() => {
-              onSetProjectStatus({ projectId: project.id, status: 'archived' })
-              onCloseMenu()
-            }}
-          >
-            <ArchiveLabel />
-          </OptionsMenuItem>
-        </>
-      )
-    default:
-      console.error(`Invalid project status "${project.status}"`)
-      return null
-  }
-}
-
-function ActivateLabel() {
-  return (
-    <div className="flex space-x-2">
-      <div className="flex flex-col justify-center w-5">
-        <div className="m-auto">
-          <ActivateIcon color="fill-gray-700" />
-        </div>
-      </div>
-      <p>Activate</p>
-    </div>
-  )
-}
-
-function ArchiveLabel() {
-  return (
-    <div className="flex space-x-2">
-      <div className="flex flex-col justify-center w-5">
-        <div className="m-auto">
-          <ArchiveIcon color="fill-gray-700" />
-        </div>
-      </div>
-      <p>Archive</p>
-    </div>
-  )
-}
-
-function EditLabel() {
-  return (
-    <div className="flex space-x-2">
-      <div className="flex flex-col justify-center w-5">
-        <div className="m-auto">
-          <EditIcon color="fill-gray-700" />
-        </div>
-      </div>
-      <p>Edit</p>
-    </div>
-  )
-}
-
-function RemoveLabel() {
-  return (
-    <div className="flex space-x-2">
-      <div className="flex flex-col justify-center w-5">
-        <div className="m-auto">
-          <RemoveIcon color="fill-gray-700" />
-        </div>
-      </div>
-      <p>Move to trash</p>
-    </div>
   )
 }

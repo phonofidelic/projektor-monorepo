@@ -1,8 +1,8 @@
-import React from 'react'
 import { Project } from '@projektor/types'
 import { Header } from '@projektor/ui'
 import { authFetch } from '@/utils'
-import EditProjectButton from '@/components/EditProjectButton'
+import ProjectOptionsMenu from '@/components/ProjectOptionsMenu'
+import BackButton from '@/components/BackButton'
 
 type FetchProjectResponse = {
   project?: Project
@@ -31,8 +31,8 @@ export default async function ProjectsLayout({ params, children }: Props) {
         style={{ borderBottom: `2px solid ${project?.theme || 'white'}` }}
       >
         {project && (
-          <Header title={project.title}>
-            <EditProjectButton slug={project.slug} />
+          <Header title={project.title} backButton={<BackButton />}>
+            <ProjectOptionsMenu project={project} />
           </Header>
         )}
       </div>
