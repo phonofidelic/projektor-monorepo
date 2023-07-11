@@ -58,7 +58,7 @@ export default function ProjectGridItem({ project }: Props) {
         <div className="w-10 flex flex-col justify-center">
           <OptionsMenu
             menuButtonClassName="w-10 h-10 hover:bg-gray-200 p-auto rounded-full"
-            menuButtonContent={<OptionsIcon color="text-gray-400" />}
+            menuButtonContent={<OptionsIcon color="fill-gray-400" />}
             open={optionsMenuOpen}
             onOpen={() => setOptionsMenuOpen(true)}
             onClose={() => setOptionsMenuOpen(false)}
