@@ -57,6 +57,7 @@ export function generateMockProject({
     updatedAt:
       projectData.updatedAt ?? faker.date.past({ refDate }).toDateString(),
     tasks,
+    status: 'active',
   }
 }
 
