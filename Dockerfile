@@ -36,13 +36,25 @@ RUN pnpm install
 COPY --from=builder /app/out/full/turbo.json ./turbo.json
 COPY --from=builder /app/out/full/apps/api/tsconfig.json ./apps/api/tsconfig.json
 COPY --from=builder /app/out/full/apps/api/tsconfig.build.json ./apps/api/tsconfig.build.json
-# COPY --from=builder /app/out/full/apps/api/node_modules .
-RUN pnpm build --filter=api...
+COPY --from=builder /app/out/full/apps/api/package.json ./package.json
+RUN npm install -g @nestjs/cli
+# RUN pnpm build
+RUN npm install -g turbo
+RUN turbo run build --filter=api
 
 COPY --from=builder /app/out/full/apps/api/dist ./dist
-COPY --from=builder /app/out/full/apps/api/package.json .
+COPY --from=builder /app/out/full/apps/api/dist/main.js ./dist/main.js
+COPY --from=builder /app/node_modules .
 
-# CMD ["node", "dist/main.js"]
+FROM base AS runner
+WORKDIR /app
+COPY --from=installer /app .
+COPY --from=builder /app/node_modules ./node_modules
+
+COPY --from=builder /app/out/full/apps/api/package.json ./package.json
+RUN pnpm install
+
+CMD ["node", "./dist/main.js"]
 # CMD pnpm --dir ./apps/api run start
 # CMD node dist/main.js
-CMD ["turbo", "run", "start", "--filter=api"]
+# CMD ["pnpm", "dlx", "turbo", "run", "start:prod", "--filter=api"]
