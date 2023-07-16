@@ -97,7 +97,7 @@ RUN npm install -g @nestjs/cli
 
 # WORKDIR /app/apps/api
 # RUN turbo run build --scope=api --include-dependencies --no-deps
-RUN cd /app/apps/api && pnpm build
+RUN cd /app/apps/api && nest build
 
 FROM base AS runner
 WORKDIR /app
