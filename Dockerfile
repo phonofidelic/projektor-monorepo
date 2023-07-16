@@ -92,13 +92,13 @@ WORKDIR /app
 COPY --from=installer /app/ .
 COPY --from=builder /app/out/full/ .
 COPY .gitignore .gitignore
-RUN npm install -g @nestjs/cli prisma
+RUN npm install -g @nestjs/cli prisma turbo
 
 RUN cd /app/apps/api && prisma generate --schema ./prisma/schema.prisma
 
 # WORKDIR /app/apps/api
-# RUN turbo run build --scope=api --include-dependencies --no-deps
-RUN cd /app/apps/api && nest build
+RUN turbo run build --scope=api --include-dependencies --no-deps
+# RUN cd /app/apps/api && nest build
 
 FROM base AS runner
 WORKDIR /app
