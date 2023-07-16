@@ -83,17 +83,18 @@ COPY --from=builder /app/out/full/turbo.json ./turbo.json
 RUN pnpm install
 
 COPY --from=builder /app/apps/api/prisma /app/apps/api/prisma
-# WORKDIR /app/apps/api
-RUN npm install -g prisma
-# RUN prisma generate --schema /app/apps/api/prisma/schema.prisma
-RUN cd /app/apps/api && prisma generate --schema ./prisma/schema.prisma
+# RUN npm install -g prisma
+# # RUN prisma generate --schema /app/apps/api/prisma/schema.prisma
+# RUN cd /app/apps/api && prisma generate --schema ./prisma/schema.prisma
 
 FROM base AS sourcer
 WORKDIR /app
 COPY --from=installer /app/ .
 COPY --from=builder /app/out/full/ .
 COPY .gitignore .gitignore
-RUN npm install -g @nestjs/cli
+RUN npm install -g @nestjs/cli prisma
+
+RUN cd /app/apps/api && prisma generate --schema ./prisma/schema.prisma
 
 # WORKDIR /app/apps/api
 # RUN turbo run build --scope=api --include-dependencies --no-deps
