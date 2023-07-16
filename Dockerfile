@@ -85,8 +85,8 @@ RUN pnpm install
 COPY --from=builder /app/apps/api/prisma /app/apps/api/prisma
 # WORKDIR /app/apps/api
 RUN npm install -g prisma
-# RUN DATABASE_URL="file:./dev.db" prisma db pull --schema /app/prisma/schema.prisma && prisma generate
-RUN prisma generate --schema /app/apps/api/prisma/schema.prisma
+# RUN prisma generate --schema /app/apps/api/prisma/schema.prisma
+RUN cd /app/apps/api && prisma generate --schema ./prisma/schema.prisma
 
 FROM base AS sourcer
 WORKDIR /app
