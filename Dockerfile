@@ -95,7 +95,8 @@ COPY --from=installer /app/node_modules ./node_modules
 COPY .gitignore .gitignore
 RUN npm install -g @nestjs/cli prisma turbo
 
-RUN pnpm install
+COPY apps/api/package.json /app/apps/api/package.json
+RUN pnpm install --filter=api
 
 RUN cd /app/apps/api && prisma generate --schema ./prisma/schema.prisma
 
