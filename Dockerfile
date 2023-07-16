@@ -93,10 +93,11 @@ WORKDIR /app
 COPY --from=installer /app/ .
 COPY --from=builder /app/out/full/ .
 COPY .gitignore .gitignore
-RUN npm install -g turbo @nestjs/cli
+RUN npm install -g @nestjs/cli
 
-WORKDIR /app/apps/api
-RUN turbo run build --scope=api --include-dependencies --no-deps
+# WORKDIR /app/apps/api
+# RUN turbo run build --scope=api --include-dependencies --no-deps
+RUN cd /app/apps/api && pnpm build
 
 FROM base AS runner
 WORKDIR /app
