@@ -100,9 +100,9 @@ RUN pnpm install --filter=api
 
 RUN cd /app/apps/api && prisma generate --schema ./prisma/schema.prisma
 
-# WORKDIR /app/apps/api
-RUN turbo run build --scope=api --include-dependencies --no-deps
-# RUN cd /app/apps/api && nest build
+# RUN turbo run build --scope=api --include-dependencies --no-deps
+WORKDIR /app/apps/api
+RUN pnpm dlx @nestjs/cli build
 
 USER node
 
