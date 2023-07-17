@@ -97,12 +97,13 @@ COPY --chown=node:node .gitignore .gitignore
 RUN npm install -g @nestjs/cli prisma turbo
 
 COPY --chown=node:node apps/api/package.json /app/apps/api/package.json
-RUN pnpm install --filter=api
+# RUN pnpm install --filter=api
 
 RUN cd /app/apps/api && prisma generate --schema ./prisma/schema.prisma
 
 # RUN turbo run build --scope=api --include-dependencies --no-deps
 WORKDIR /app/apps/api
+RUN pnpm install
 RUN pnpm dlx @nestjs/cli build
 
 USER node
