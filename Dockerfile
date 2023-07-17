@@ -91,7 +91,7 @@ FROM base AS sourcer
 WORKDIR /app
 COPY --from=installer /app/ .
 COPY --from=builder /app/out/full/ .
-COPY --from=installer /app/node_modules /app/apps/api/node_modules
+COPY --from=installer /app/apps/api/node_modules /app/apps/api/node_modules
 COPY .gitignore .gitignore
 RUN npm install -g @nestjs/cli prisma turbo
 
