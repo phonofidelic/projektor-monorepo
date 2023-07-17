@@ -146,5 +146,6 @@ RUN pnpm dlx prisma generate
 FROM base AS runner
 WORKDIR /app
 COPY --chown=node:node --from=installer /app .
+COPY --chown=node:node --from=installer /app/apps/api/node_modules ./apps/api/node_modules
 EXPOSE ${PORT}
 CMD [ "pnpm", "dlx", "turbo", "start", "--filter=api" ]
