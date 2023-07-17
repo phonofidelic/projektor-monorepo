@@ -92,6 +92,7 @@ COPY --chown=node:node --from=installer /app/ .
 COPY --chown=node:node --from=builder /app/out/full/ .
 COPY --chown=node:node --from=installer /app/apps/api/node_modules /app/apps/api/node_modules
 COPY --chown=node:node --from=installer /app/node_modules /app/node_modules
+COPY --chown=node:node --from=installer /app/node_modules /app/apps/api/node_modules
 COPY --chown=node:node .gitignore .gitignore
 RUN npm install -g @nestjs/cli prisma turbo
 
