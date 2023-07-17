@@ -5,6 +5,8 @@
   "author": "",
   "private": true,
   "license": "UNLICENSED",
+  "main": "dist/main.js",
+  "types": "dist/main.d.ts",
   "scripts": {
     "dev": "pnpm start:dev",
     "build": "pnpm dlx @nestjs/cli build",
