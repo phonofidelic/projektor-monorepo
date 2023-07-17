@@ -139,7 +139,7 @@ COPY --chown=node:node --from=builder /app .
 COPY --chown=node:node --from=builder /app/out/json/ .
 COPY --chown=node:node --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --chown=node:node --from=builder /app/out/full/turbo.json ./turbo.json
-RUN pnpm install
+RUN pnpm install --filter=api
 WORKDIR /app/apps/api
 RUN pnpm dlx prisma generate
 
@@ -147,4 +147,4 @@ FROM base AS runner
 WORKDIR /app
 COPY --chown=node:node --from=installer /app .
 EXPOSE ${PORT}
-CMD [ "pnpm", "start", "--filter=api" ]
+CMD [ "pnpm", "dlx", "turbo", "start", "--filter=api" ]
