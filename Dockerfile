@@ -59,7 +59,6 @@
 
 
 #################################
-
 FROM node:18-alpine AS base
 
 RUN corepack enable
@@ -70,33 +69,33 @@ FROM base AS builder
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 RUN npm install -g turbo
-COPY . .
+COPY --chown=node:node . .
 RUN turbo prune --scope=api --docker
 
 RUN rm -rf /app/out/full/*/*/node_modules
 
 FROM base AS installer
 WORKDIR /app
-COPY --from=builder /app/out/json/ .
-COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
-COPY --from=builder /app/out/full/turbo.json ./turbo.json
+COPY --chown=node:node --from=builder /app/out/json/ .
+COPY --chown=node:node --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --chown=node:node --from=builder /app/out/full/turbo.json ./turbo.json
 RUN pnpm install
 
-COPY --from=builder /app/apps/api/prisma /app/apps/api/prisma
+COPY --chown=node:node --from=builder /app/apps/api/prisma /app/apps/api/prisma
 # RUN npm install -g prisma
 # # RUN prisma generate --schema /app/apps/api/prisma/schema.prisma
 # RUN cd /app/apps/api && prisma generate --schema ./prisma/schema.prisma
 
 FROM base AS sourcer
 WORKDIR /app
-COPY --from=installer /app/ .
-COPY --from=builder /app/out/full/ .
-COPY --from=installer /app/apps/api/node_modules /app/apps/api/node_modules
-COPY --from=installer /app/node_modules /app/node_modules
-COPY .gitignore .gitignore
+COPY --chown=node:node --from=installer /app/ .
+COPY --chown=node:node --from=builder /app/out/full/ .
+COPY --chown=node:node --from=installer /app/apps/api/node_modules /app/apps/api/node_modules
+COPY --chown=node:node --from=installer /app/node_modules /app/node_modules
+COPY --chown=node:node .gitignore .gitignore
 RUN npm install -g @nestjs/cli prisma turbo
 
-COPY apps/api/package.json /app/apps/api/package.json
+COPY --chown=node:node apps/api/package.json /app/apps/api/package.json
 RUN pnpm install --filter=api
 
 RUN cd /app/apps/api && prisma generate --schema ./prisma/schema.prisma
@@ -105,7 +104,9 @@ RUN cd /app/apps/api && prisma generate --schema ./prisma/schema.prisma
 RUN turbo run build --scope=api --include-dependencies --no-deps
 # RUN cd /app/apps/api && nest build
 
+USER node
+
 FROM base AS runner
 WORKDIR /app
-COPY --from=sourcer /app/ .
+COPY --chown=node:node --from=sourcer /app/ .
 CMD [ "node", "apps/api/dist/main.js" ]
