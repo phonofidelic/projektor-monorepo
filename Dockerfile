@@ -135,11 +135,15 @@ RUN turbo prune --scope=api --docker
 
 FROM base AS installer
 WORKDIR /app
-COPY --chown=node:node --from=builder /app .
+COPY .gitignore .gitignore
+# COPY --chown=node:node --from=builder /app .
 COPY --chown=node:node --from=builder /app/out/json/ .
 COPY --chown=node:node --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --chown=node:node --from=builder /app/out/full/turbo.json ./turbo.json
 RUN pnpm install --filter=api
+
+COPY --from=builder /app/out/full/ .
+
 WORKDIR /app/apps/api
 RUN pnpm dlx prisma generate
 
