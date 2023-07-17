@@ -111,4 +111,5 @@ USER node
 FROM base AS runner
 WORKDIR /app
 COPY --chown=node:node --from=sourcer /app/ .
+EXPOSE ${PORT}
 CMD [ "node", "apps/api/dist/main.js" ]
