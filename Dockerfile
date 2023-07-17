@@ -59,6 +59,67 @@
 
 
 #################################
+
+# FROM node:18-alpine AS base
+
+# RUN corepack enable
+# VOLUME [ "/pnpm-store", "/app/node_modules" ]
+# RUN pnpm config --global set store-dir /pnpm-store
+
+# FROM base AS builder
+# RUN apk add --no-cache libc6-compat
+# WORKDIR /app
+# RUN npm install -g turbo
+# COPY --chown=node:node . .
+# RUN turbo prune --scope=api --docker
+
+# RUN rm -rf /app/out/full/*/*/node_modules
+
+# FROM base AS installer
+# WORKDIR /app
+# COPY --chown=node:node --from=builder /app/out/json/ .
+# COPY --chown=node:node --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+# COPY --chown=node:node --from=builder /app/out/full/turbo.json ./turbo.json
+# RUN pnpm install
+
+# COPY --chown=node:node --from=builder /app/apps/api/prisma /app/apps/api/prisma
+# # RUN npm install -g prisma
+# # # RUN prisma generate --schema /app/apps/api/prisma/schema.prisma
+# # RUN cd /app/apps/api && prisma generate --schema ./prisma/schema.prisma
+
+# FROM base AS sourcer
+# WORKDIR /app
+# COPY --chown=node:node --from=installer /app/ .
+# COPY --chown=node:node --from=builder /app/out/full/ .
+# COPY --chown=node:node --from=installer /app/apps/api/node_modules /app/apps/api/node_modules
+# COPY --chown=node:node --from=installer /app/node_modules /app/node_modules
+# COPY --chown=node:node --from=installer /app/node_modules /app/apps/api/node_modules
+# COPY --chown=node:node .gitignore .gitignore
+# RUN npm install -g @nestjs/cli prisma turbo
+
+# COPY --chown=node:node --from=installer /app/package.json /app/apps/api/package.json
+# RUN pnpm install --filter=api
+
+# RUN cd /app/apps/api && prisma generate --schema ./prisma/schema.prisma
+
+# RUN turbo run build --scope=api
+# # WORKDIR /app/apps/api
+# # RUN pnpm install
+# # RUN pnpm dlx @nestjs/cli build
+
+# COPY --chown=node:node --from=installer /app/node_modules /app/apps/api/dist/node_modules
+
+# USER node
+
+# FROM base AS runner
+# WORKDIR /app
+# COPY --chown=node:node --from=sourcer /app/apps/api /app/apps/api
+# EXPOSE ${PORT}
+# # CMD [ "node", "apps/api/dist/main.js" ]
+# CMD [ "pnpm", "start" ]
+
+##############################
+
 FROM node:18-alpine AS base
 
 RUN corepack enable
@@ -72,44 +133,18 @@ RUN npm install -g turbo
 COPY --chown=node:node . .
 RUN turbo prune --scope=api --docker
 
-RUN rm -rf /app/out/full/*/*/node_modules
-
 FROM base AS installer
 WORKDIR /app
+COPY --chown=node:node --from=builder /app .
 COPY --chown=node:node --from=builder /app/out/json/ .
 COPY --chown=node:node --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --chown=node:node --from=builder /app/out/full/turbo.json ./turbo.json
 RUN pnpm install
-
-COPY --chown=node:node --from=builder /app/apps/api/prisma /app/apps/api/prisma
-# RUN npm install -g prisma
-# # RUN prisma generate --schema /app/apps/api/prisma/schema.prisma
-# RUN cd /app/apps/api && prisma generate --schema ./prisma/schema.prisma
-
-FROM base AS sourcer
-WORKDIR /app
-COPY --chown=node:node --from=installer /app/ .
-COPY --chown=node:node --from=builder /app/out/full/ .
-COPY --chown=node:node --from=installer /app/apps/api/node_modules /app/apps/api/node_modules
-COPY --chown=node:node --from=installer /app/node_modules /app/node_modules
-COPY --chown=node:node --from=installer /app/node_modules /app/apps/api/node_modules
-COPY --chown=node:node .gitignore .gitignore
-RUN npm install -g @nestjs/cli prisma turbo
-
-COPY --chown=node:node --from=installer /app/package.json /app/apps/api/package.json
-RUN pnpm install --filter=api
-
-RUN cd /app/apps/api && prisma generate --schema ./prisma/schema.prisma
-
-RUN turbo run build --scope=api --include-dependencies --no-deps
-# WORKDIR /app/apps/api
-# RUN pnpm install
-# RUN pnpm dlx @nestjs/cli build
-
-USER node
+WORKDIR /app/apps/api
+RUN pnpm dlx prisma generate
 
 FROM base AS runner
 WORKDIR /app
-COPY --chown=node:node --from=sourcer /app/ .
+COPY --chown=node:node --from=installer /app .
 EXPOSE ${PORT}
-CMD [ "node", "apps/api/dist/main.js" ]
+CMD [ "pnpm", "start", "--filter=api" ]
