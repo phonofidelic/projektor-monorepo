@@ -141,7 +141,7 @@ COPY .gitignore .gitignore
 # COPY --from=builder /app .
 COPY --from=builder /app/out/json/ .
 # COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
-COPY --from=builder /app/out/full/turbo.json ./turbo.json
+COPY --from=builder /app/out/full/turbo.json /app/turbo.json
 # COPY --from=builder /app/out/full/apps/api/package.json .
 COPY --from=builder /app/out/full/apps/api/tsconfig.json /app/apps/api/tsconfig.json
 COPY --from=builder /app/out/full/apps/api/tsconfig.build.json /app/apps/api/tsconfig.build.json
@@ -159,12 +159,12 @@ WORKDIR /app
 # COPY --from=builder ./app . 
 RUN ls -a apps/api/node_modules
 
-# RUN pnpm dlx turbo run build --filter=api
+RUN pnpm dlx turbo run build --filter=api
 # RUN ls -a .
 
-WORKDIR /app/apps/api
-RUN pnpm build
-RUN ls -a dist
+# WORKDIR /app/apps/api
+# RUN pnpm build
+RUN ls -a /app/apps/api/dist
 
 
 FROM base AS runner
@@ -174,12 +174,14 @@ WORKDIR /app
 # COPY --chown=node:node --from=builder /app/apps/api/tsconfig.json /app/apps/api/tsconfig.json
 # COPY --chown=node:node --from=builder /app/apps/api/tsconfig.build.json /app/apps/api/tsconfig.build.json
 # COPY --chown=node:node --from=installer /app/apps/api/node_modules ./apps/api/node_modules
+COPY --from=installer /app/turbo.json /app/turbo.json
 COPY --from=installer /app/node_modules /app/node_modules
-COPY --from=installer /app/package.json .
+COPY --from=installer /app/package.json /app/package.json
 COPY --from=installer /app/apps/api /app/apps/api
+COPY --from=installer /app/apps/api/prisma /app/apps/api/prisma
 COPY --from=installer /app/apps/api/package.json /app/apps/api/package.json
 RUN ls -a /app/apps/api/node_modules
 EXPOSE ${PORT}
-# CMD [ "pnpm", "dlx", "turbo", "run", "start", "--filter=api" ]
-WORKDIR /app/apps/api
-CMD [ "pnpm", "start" ]
+CMD [ "node", "apps/api/dist/main.js" ]
+# WORKDIR /app/apps/api
+# CMD [ "pnpm", "start" ]
