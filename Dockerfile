@@ -149,8 +149,8 @@ COPY --from=builder /app/out/full/apps/api/prisma/schema.prisma /app/apps/api/pr
 COPY --from=builder /app/out/full/apps/api/src /app/apps/api/src
 
 
+RUN pnpm install --filter=api
 WORKDIR /app/apps/api
-RUN pnpm install
 
 # WORKDIR /app/apps/api
 RUN pnpm dlx prisma generate
