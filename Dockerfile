@@ -123,7 +123,7 @@
 FROM node:18-alpine AS base
 
 RUN corepack enable
-VOLUME [ "/pnpm-store", "/app/node_modules" ]
+VOLUME [ "/pnpm-store", "/app/node_modules", "/app/apps/api/dist" ]
 RUN pnpm config --global set store-dir /pnpm-store
 
 FROM base AS builder
@@ -156,19 +156,26 @@ RUN pnpm dlx prisma generate
 WORKDIR /app
 # COPY --from=builder ./app . 
 RUN ls -a apps/api/node_modules
-# COPY apps/api/node_modules .
-RUN pnpm dlx turbo run build --filter=api
+
+# RUN pnpm dlx turbo run build --filter=api
+
+WORKDIR /app/apps/api
+RUN pnpm build
+RUN ls -a dist
 
 
 FROM base AS runner
 WORKDIR /app
+RUN ls -a .
 # COPY --chown=node:node --from=installer /app .
-COPY --from=installer /app .
+# COPY --from=installer /app .
 # COPY --chown=node:node --from=builder /app/apps/api/tsconfig.json /app/apps/api/tsconfig.json
 # COPY --chown=node:node --from=builder /app/apps/api/tsconfig.build.json /app/apps/api/tsconfig.build.json
 # COPY --chown=node:node --from=installer /app/apps/api/node_modules ./apps/api/node_modules
 # COPY --chown=node:node --from=installer /app/node_modules ./node_modules
 # RUN pnpm install --filter=api
+COPY --from=installer /app/apps/api/dist /app/apps/api/dist
+RUN ls -a /app/apps/api/dist
 EXPOSE ${PORT}
 CMD [ "pnpm", "dlx", "turbo", "start", "--filter=api" ]
 # WORKDIR /app/apps/api
