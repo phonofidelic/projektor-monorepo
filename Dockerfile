@@ -145,7 +145,7 @@ COPY --chown=node:node --from=builder /app/out/full/turbo.json ./turbo.json
 # COPY --chown=node:node --from=builder /app/out/full/apps/api/package.json .
 COPY --chown=node:node --from=builder /app/out/full/apps/api/tsconfig.json /app/apps/api/tsconfig.json
 COPY --chown=node:node --from=builder /app/out/full/apps/api/tsconfig.build.json /app/apps/api/tsconfig.build.json
-COPY --chown=node:node --from=builder /app/out/full/apps/api/prisma /app/apps/api/prisma/schema.prisma
+COPY --chown=node:node --from=builder /app/out/full/apps/api/prisma/schema.prisma /app/apps/api/prisma/schema.prisma
 
 RUN pnpm install --filter=api
 
