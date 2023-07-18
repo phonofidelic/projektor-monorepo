@@ -123,7 +123,7 @@
 FROM node:18-alpine AS base
 
 RUN corepack enable
-VOLUME [ "/pnpm-store", "/app/node_modules", "/app/apps/api/node_modules" ]
+VOLUME [ "/pnpm-store", "/app/node_modules" ]
 RUN pnpm config --global set store-dir /pnpm-store
 
 FROM base AS builder
@@ -147,7 +147,8 @@ COPY --chown=node:node --from=builder /app/out/full/apps/api/tsconfig.json /app/
 COPY --chown=node:node --from=builder /app/out/full/apps/api/tsconfig.build.json /app/apps/api/tsconfig.build.json
 COPY --chown=node:node --from=builder /app/out/full/apps/api/prisma/schema.prisma /app/apps/api/prisma/schema.prisma
 
-RUN pnpm install --filter=api
+WORKDIR /app/apps/api
+RUN pnpm install
 
 WORKDIR /app/apps/api
 RUN pnpm dlx prisma generate
