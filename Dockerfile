@@ -167,7 +167,7 @@ RUN ls -a dist
 
 FROM base AS runner
 WORKDIR /app
-# COPY --chown=node:node --from=installer /app .
+COPY --chown=node:node --from=installer /app .
 # COPY --from=installer /app .
 # COPY --chown=node:node --from=builder /app/apps/api/tsconfig.json /app/apps/api/tsconfig.json
 # COPY --chown=node:node --from=builder /app/apps/api/tsconfig.build.json /app/apps/api/tsconfig.build.json
