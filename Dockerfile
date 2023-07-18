@@ -150,6 +150,7 @@ COPY --from=builder /app/out/full/apps/api/src /app/apps/api/src
 
 
 RUN pnpm install --filter=api
+COPY . .
 WORKDIR /app/apps/api
 
 # WORKDIR /app/apps/api
