@@ -152,17 +152,17 @@ COPY --from=builder /app/out/full/apps/api/src /app/apps/api/src
 WORKDIR /app/apps/api
 RUN pnpm install
 
-WORKDIR /app/apps/api
+# WORKDIR /app/apps/api
 RUN pnpm dlx prisma generate
 
-WORKDIR /app
+# WORKDIR /app
 # COPY --from=builder ./app . 
-RUN ls -a apps/api/node_modules
+RUN ls -a /app/apps/api/node_modules
 
 # RUN pnpm dlx turbo run build --filter=api
 # RUN ls -a .
 
-WORKDIR /app/apps/api
+# WORKDIR /app/apps/api
 RUN pnpm build
 RUN ls -a /app/apps/api/dist
 
