@@ -159,11 +159,11 @@ WORKDIR /app
 # COPY --from=builder ./app . 
 RUN ls -a apps/api/node_modules
 
-RUN pnpm dlx turbo run build --filter=api
+# RUN pnpm dlx turbo run build --filter=api
 # RUN ls -a .
 
-# WORKDIR /app/apps/api
-# RUN pnpm build
+WORKDIR /app/apps/api
+RUN pnpm build
 RUN ls -a /app/apps/api/dist
 
 
