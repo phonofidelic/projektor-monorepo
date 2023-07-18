@@ -157,16 +157,16 @@ WORKDIR /app
 # COPY --from=builder ./app . 
 RUN ls -a apps/api/node_modules
 
-# RUN pnpm dlx turbo run build --filter=api
+RUN pnpm dlx turbo run build --filter=api
+RUN ls -a .
 
 WORKDIR /app/apps/api
-RUN pnpm build
+# RUN pnpm build
 RUN ls -a dist
 
 
 FROM base AS runner
 WORKDIR /app
-RUN ls -a .
 # COPY --chown=node:node --from=installer /app .
 # COPY --from=installer /app .
 # COPY --chown=node:node --from=builder /app/apps/api/tsconfig.json /app/apps/api/tsconfig.json
