@@ -180,6 +180,6 @@ COPY --from=installer /app/apps/api/package.json /app/apps/api/package.json
 RUN ls -a .
 RUN ls -a /app/apps/api/dist
 EXPOSE ${PORT}
-CMD [ "pnpm", "dlx", "turbo", "start", "--filter=api" ]
+CMD [ "pnpm", "dlx", "turbo", "run", "start", "--filter=api" ]
 # WORKDIR /app/apps/api
 # CMD [ "pnpm", "start" ]
