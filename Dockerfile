@@ -140,7 +140,7 @@ WORKDIR /app
 COPY .gitignore .gitignore
 # COPY --from=builder /app .
 COPY --from=builder /app/out/json/ .
-# COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --from=builder /app/out/full/turbo.json /app/turbo.json
 # COPY --from=builder /app/out/full/apps/api/package.json .
 COPY --from=builder /app/out/full/apps/api/tsconfig.json /app/apps/api/tsconfig.json
@@ -149,8 +149,8 @@ COPY --from=builder /app/out/full/apps/api/prisma/schema.prisma /app/apps/api/pr
 COPY --from=builder /app/out/full/apps/api/src /app/apps/api/src
 
 
+
 RUN pnpm install --filter=api
-COPY . .
 WORKDIR /app/apps/api
 
 # WORKDIR /app/apps/api
@@ -161,7 +161,7 @@ RUN pnpm dlx prisma generate
 RUN ls -a /app/apps/api/node_modules
 
 # RUN pnpm dlx turbo run build --filter=api
-# RUN ls -a .
+RUN ls -a /app/apps/api
 
 # WORKDIR /app/apps/api
 RUN pnpm build
