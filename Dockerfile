@@ -146,6 +146,8 @@ COPY --from=builder /app/out/full/turbo.json ./turbo.json
 COPY --from=builder /app/out/full/apps/api/tsconfig.json /app/apps/api/tsconfig.json
 COPY --from=builder /app/out/full/apps/api/tsconfig.build.json /app/apps/api/tsconfig.build.json
 COPY --from=builder /app/out/full/apps/api/prisma/schema.prisma /app/apps/api/prisma/schema.prisma
+COPY --from=builder /app/out/full/apps/api/src /app/apps/api/src
+
 
 WORKDIR /app/apps/api
 RUN pnpm install
@@ -157,11 +159,11 @@ WORKDIR /app
 # COPY --from=builder ./app . 
 RUN ls -a apps/api/node_modules
 
-RUN pnpm dlx turbo run build --filter=api
-RUN ls -a .
+# RUN pnpm dlx turbo run build --filter=api
+# RUN ls -a .
 
 WORKDIR /app/apps/api
-# RUN pnpm build
+RUN pnpm build
 RUN ls -a dist
 
 
@@ -172,14 +174,12 @@ WORKDIR /app
 # COPY --chown=node:node --from=builder /app/apps/api/tsconfig.json /app/apps/api/tsconfig.json
 # COPY --chown=node:node --from=builder /app/apps/api/tsconfig.build.json /app/apps/api/tsconfig.build.json
 # COPY --chown=node:node --from=installer /app/apps/api/node_modules ./apps/api/node_modules
-# COPY --chown=node:node --from=installer /app/node_modules ./node_modules
-# RUN pnpm install --filter=api
+COPY --from=installer /app/node_modules /app/node_modules
 COPY --from=installer /app/package.json .
 COPY --from=installer /app/apps/api /app/apps/api
 COPY --from=installer /app/apps/api/package.json /app/apps/api/package.json
-RUN ls -a .
-RUN ls -a /app/apps/api/dist
+RUN ls -a /app/apps/api/node_modules
 EXPOSE ${PORT}
-CMD [ "pnpm", "dlx", "turbo", "run", "start", "--filter=api" ]
-# WORKDIR /app/apps/api
-# CMD [ "pnpm", "start" ]
+# CMD [ "pnpm", "dlx", "turbo", "run", "start", "--filter=api" ]
+WORKDIR /app/apps/api
+CMD [ "pnpm", "start" ]
