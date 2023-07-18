@@ -134,24 +134,41 @@ COPY --chown=node:node . .
 RUN turbo prune --scope=api --docker
 
 FROM base AS installer
+RUN apk add --no-cache libc6-compat
+RUN apk update
 WORKDIR /app
 COPY .gitignore .gitignore
 # COPY --chown=node:node --from=builder /app .
 COPY --chown=node:node --from=builder /app/out/json/ .
-COPY --chown=node:node --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+# COPY --chown=node:node --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --chown=node:node --from=builder /app/out/full/turbo.json ./turbo.json
+# COPY --chown=node:node --from=builder /app/out/full/apps/api/package.json .
+COPY --chown=node:node --from=builder /app/out/full/apps/api/tsconfig.json /app/apps/api/tsconfig.json
+COPY --chown=node:node --from=builder /app/out/full/apps/api/tsconfig.build.json /app/apps/api/tsconfig.build.json
+COPY --chown=node:node --from=builder /app/out/full/apps/api/prisma /app/apps/api/prisma
+
 RUN pnpm install --filter=api
 
-COPY --from=builder /app/out/full/ .
-
 WORKDIR /app/apps/api
+RUN ls -a
 RUN pnpm dlx prisma generate
+
+WORKDIR /app
+COPY --from=builder ./app . 
+RUN pnpm dlx turbo run build --filter=api
+
 
 FROM base AS runner
 WORKDIR /app
+# COPY --chown=node:node --from=installer /app .
 COPY --chown=node:node --from=installer /app .
+# COPY --chown=node:node --from=builder /app/apps/api/tsconfig.json /app/apps/api/tsconfig.json
+# COPY --chown=node:node --from=builder /app/apps/api/tsconfig.build.json /app/apps/api/tsconfig.build.json
 # COPY --chown=node:node --from=installer /app/apps/api/node_modules ./apps/api/node_modules
-COPY --chown=node:node --from=installer /app/node_modules ./node_modules
-RUN pnpm install --filter=api
+# COPY --chown=node:node --from=installer /app/node_modules ./node_modules
+# RUN pnpm install --filter=api
 EXPOSE ${PORT}
+RUN ls -a
 CMD [ "pnpm", "dlx", "turbo", "start", "--filter=api" ]
+# WORKDIR /app/apps/api
+# CMD [ "pnpm", "start" ]
