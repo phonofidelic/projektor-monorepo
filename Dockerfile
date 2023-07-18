@@ -123,7 +123,7 @@
 FROM node:18-alpine AS base
 
 RUN corepack enable
-VOLUME [ "/pnpm-store", "/app/node_modules", "/app/apps/api/node_modules", "/app/apps/api/dist" ]
+VOLUME [ "/pnpm-store", "/app/node_modules" ]
 RUN pnpm config --global set store-dir /pnpm-store
 
 FROM base AS builder
