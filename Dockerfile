@@ -176,6 +176,7 @@ WORKDIR /app
 # RUN pnpm install --filter=api
 COPY --from=installer /app/package.json .
 COPY --from=installer /app/apps/api /app/apps/api
+COPY --from=installer /app/apps/api/package.json /app/apps/api/package.json
 RUN ls -a .
 RUN ls -a /app/apps/api/dist
 EXPOSE ${PORT}
