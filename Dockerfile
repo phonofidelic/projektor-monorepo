@@ -145,12 +145,11 @@ COPY --chown=node:node --from=builder /app/out/full/turbo.json ./turbo.json
 # COPY --chown=node:node --from=builder /app/out/full/apps/api/package.json .
 COPY --chown=node:node --from=builder /app/out/full/apps/api/tsconfig.json /app/apps/api/tsconfig.json
 COPY --chown=node:node --from=builder /app/out/full/apps/api/tsconfig.build.json /app/apps/api/tsconfig.build.json
-COPY --chown=node:node --from=builder /app/out/full/apps/api/prisma /app/apps/api/prisma
+COPY --chown=node:node --from=builder /app/out/full/apps/api/prisma /app/apps/api/prisma/schema.prisma
 
 RUN pnpm install --filter=api
 
 WORKDIR /app/apps/api
-RUN ls -a
 RUN pnpm dlx prisma generate
 
 WORKDIR /app
@@ -168,7 +167,6 @@ COPY --chown=node:node --from=installer /app .
 # COPY --chown=node:node --from=installer /app/node_modules ./node_modules
 # RUN pnpm install --filter=api
 EXPOSE ${PORT}
-RUN ls -a
 CMD [ "pnpm", "dlx", "turbo", "start", "--filter=api" ]
 # WORKDIR /app/apps/api
 # CMD [ "pnpm", "start" ]
