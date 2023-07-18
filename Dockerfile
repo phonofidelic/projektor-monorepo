@@ -130,7 +130,7 @@ FROM base AS builder
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 RUN npm install -g turbo
-COPY --chown=node:node . .
+COPY . .
 RUN turbo prune --scope=api --docker
 
 FROM base AS installer
@@ -138,14 +138,14 @@ RUN apk add --no-cache libc6-compat
 RUN apk update
 WORKDIR /app
 COPY .gitignore .gitignore
-# COPY --chown=node:node --from=builder /app .
-COPY --chown=node:node --from=builder /app/out/json/ .
-# COPY --chown=node:node --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
-COPY --chown=node:node --from=builder /app/out/full/turbo.json ./turbo.json
-# COPY --chown=node:node --from=builder /app/out/full/apps/api/package.json .
-COPY --chown=node:node --from=builder /app/out/full/apps/api/tsconfig.json /app/apps/api/tsconfig.json
-COPY --chown=node:node --from=builder /app/out/full/apps/api/tsconfig.build.json /app/apps/api/tsconfig.build.json
-COPY --chown=node:node --from=builder /app/out/full/apps/api/prisma/schema.prisma /app/apps/api/prisma/schema.prisma
+# COPY --from=builder /app .
+COPY --from=builder /app/out/json/ .
+# COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
+COPY --from=builder /app/out/full/turbo.json ./turbo.json
+# COPY --from=builder /app/out/full/apps/api/package.json .
+COPY --from=builder /app/out/full/apps/api/tsconfig.json /app/apps/api/tsconfig.json
+COPY --from=builder /app/out/full/apps/api/tsconfig.build.json /app/apps/api/tsconfig.build.json
+COPY --from=builder /app/out/full/apps/api/prisma/schema.prisma /app/apps/api/prisma/schema.prisma
 
 WORKDIR /app/apps/api
 RUN pnpm install
@@ -154,7 +154,7 @@ WORKDIR /app/apps/api
 RUN pnpm dlx prisma generate
 
 WORKDIR /app
-COPY --from=builder ./app . 
+# COPY --from=builder ./app . 
 RUN ls -a apps/api/node_modules
 # COPY apps/api/node_modules .
 RUN pnpm dlx turbo run build --filter=api
@@ -163,7 +163,7 @@ RUN pnpm dlx turbo run build --filter=api
 FROM base AS runner
 WORKDIR /app
 # COPY --chown=node:node --from=installer /app .
-COPY --chown=node:node --from=installer /app .
+COPY --from=installer /app .
 # COPY --chown=node:node --from=builder /app/apps/api/tsconfig.json /app/apps/api/tsconfig.json
 # COPY --chown=node:node --from=builder /app/apps/api/tsconfig.build.json /app/apps/api/tsconfig.build.json
 # COPY --chown=node:node --from=installer /app/apps/api/node_modules ./apps/api/node_modules
