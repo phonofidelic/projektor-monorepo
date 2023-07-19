@@ -90,7 +90,7 @@ COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 RUN pnpm install
 
-COPY --from=builder /app/out/full/ 
+COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
 WORKDIR /app/apps/api
 RUN pnpm dlx prisma generate --schema=/app/apps/api/prisma/schema.prisma
