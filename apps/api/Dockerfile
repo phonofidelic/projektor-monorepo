@@ -92,9 +92,9 @@ RUN pnpm install
 
 COPY --from=builder /app/out/full/ .
 COPY turbo.json turbo.json
-# WORKDIR /app/apps/api
+WORKDIR /app/apps/api
 RUN pnpm dlx prisma generate --schema=/app/apps/api/prisma/schema.prisma
-# WORKDIR /app
+WORKDIR /app
 RUN pnpm dlx turbo run build --filter=api
 # RUN pnpm dlx @nestjs/cli build
 
