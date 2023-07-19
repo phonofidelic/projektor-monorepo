@@ -158,10 +158,11 @@ RUN pnpm dlx prisma generate
 
 WORKDIR /app
 # COPY --from=builder ./app . 
+Run ls -a /app/node_modules
 RUN ls -a /app/apps/api/node_modules
 
+RUN pnpm link  . --dir /app/apps/api/node_modules
 RUN pnpm dlx turbo run build --filter=api...
-RUN ls -a /app/apps/api
 
 # WORKDIR /app/apps/api
 # RUN pnpm build
