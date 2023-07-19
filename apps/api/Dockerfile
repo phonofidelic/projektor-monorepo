@@ -91,7 +91,9 @@ COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 RUN pnpm install
 
 COPY --from=builder /app/out/full/ .
+WORKDIR /app/apps/api
 RUN pnpm dlx prisma generate --schema=/app/apps/api/prisma/schema.prisma
+WORKDIR /app
 RUN pnpm dlx turbo run build --filter=api
 
 FROM base AS runner
