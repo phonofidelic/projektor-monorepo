@@ -141,28 +141,23 @@ COPY .gitignore .gitignore
 # COPY --from=builder /app .
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
-COPY --from=builder /app/out/full/turbo.json /app/turbo.json
-# COPY --from=builder /app/out/full/apps/api/package.json .
-COPY --from=builder /app/out/full/apps/api/tsconfig.json /app/apps/api/tsconfig.json
-COPY --from=builder /app/out/full/apps/api/tsconfig.build.json /app/apps/api/tsconfig.build.json
-COPY --from=builder /app/out/full/apps/api/prisma/schema.prisma /app/apps/api/prisma/schema.prisma
-COPY --from=builder /app/out/full/apps/api/src /app/apps/api/src
-
-
-
-RUN pnpm install --filter=api
-WORKDIR /app/apps/api
+# COPY --from=builder /app/out/full/turbo.json /app/turbo.json
+# COPY --from=builder /app/out/full/apps/api/tsconfig.json /app/apps/api/tsconfig.json
+# COPY --from=builder /app/out/full/apps/api/tsconfig.build.json /app/apps/api/tsconfig.build.json
+# COPY --from=builder /app/out/full/apps/api/prisma/schema.prisma /app/apps/api/prisma/schema.prisma
+# COPY --from=builder /app/out/full/apps/api/src /app/apps/api/src
+COPY --from=builder /app/out/full/ .
+RUN pnpm install
 
 # WORKDIR /app/apps/api
-RUN pnpm dlx prisma generate
+RUN pnpm dlx prisma generate --schema=/app/apps/api/prisma/schema.prisma
 
-WORKDIR /app
+# WORKDIR /app
 # COPY --from=builder ./app . 
 Run ls -a /app/node_modules
 RUN ls -a /app/apps/api/node_modules
 
-RUN pnpm link  . --dir /app/apps/api/node_modules
-RUN pnpm dlx turbo run build --filter=api...
+RUN pnpm dlx turbo run build --filter=api
 
 # WORKDIR /app/apps/api
 # RUN pnpm build
