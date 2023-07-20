@@ -93,6 +93,7 @@ COPY --from=builder /app/out/full/ .
 RUN pnpm install
 
 COPY turbo.json turbo.json
+COPY /app/node_modules /app/apps/api/node_modules
 RUN ls /app/apps/api/node_modules
 WORKDIR /app/apps/api
 RUN pnpm dlx prisma generate --schema=/app/apps/api/prisma/schema.prisma
