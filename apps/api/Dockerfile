@@ -90,16 +90,18 @@ COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 
 COPY --from=builder /app/out/full/ .
+# RUN pnpm install
+
+WORKDIR /app/apps/api
 RUN pnpm install
 
+WORKDIR /app
 COPY turbo.json turbo.json
-COPY /app/node_modules /app/apps/api/node_modules
-RUN ls /app/apps/api/node_modules
+RUN ls /app
 WORKDIR /app/apps/api
 RUN pnpm dlx prisma generate --schema=/app/apps/api/prisma/schema.prisma
 WORKDIR /app
 RUN npm install -g @nestjs/cli
-COPY /app/apps/api/node_modules /app/apps/api/node_modules
 RUN ls /app/apps/api/node_modules
 RUN pnpm dlx turbo run build --filter=api...
 # RUN pnpm dlx @nestjs/cli build
