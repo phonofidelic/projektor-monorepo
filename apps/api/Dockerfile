@@ -93,7 +93,8 @@ COPY --from=builder /app/out/full/ .
 # RUN pnpm install
 
 WORKDIR /app/apps/api
-RUN pnpm install
+# RUN pnpm install
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN ls /app/node_modules
 RUN ls /app/apps/api/node_modules
 
