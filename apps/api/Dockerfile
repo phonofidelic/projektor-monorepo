@@ -93,9 +93,9 @@ COPY --from=builder /app/out/full/ .
 # RUN pnpm install
 
 WORKDIR /app/apps/api
-RUN pnpm install --shamefully-hoist
+RUN pnpm install
 RUN ls /app/node_modules
-RUN pnpm link /app/apps/api
+RUN ls /app/apps/api/node_modules
 
 WORKDIR /app
 COPY turbo.json turbo.json
@@ -104,7 +104,6 @@ RUN pnpm dlx prisma generate --schema=/app/apps/api/prisma/schema.prisma
 
 WORKDIR /app
 RUN npm install -g @nestjs/cli
-RUN ls /app/apps/api/node_modules
 RUN pnpm dlx turbo run build --filter=api...
 # RUN pnpm dlx @nestjs/cli build
 
