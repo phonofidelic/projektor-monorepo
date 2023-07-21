@@ -74,15 +74,15 @@ VOLUME [ "/pnpm-store", "/app/node_modules", "/app/apps/api/node_modules" ]
 RUN pnpm config --global set store-dir /pnpm-store
 
 FROM base AS builder
-RUN apk add --no-cache libc6-compat
+# RUN apk add --no-cache libc6-compat
 WORKDIR /app
 RUN npm install -g turbo
 COPY . .
 RUN turbo prune --scope=api --docker
 
 FROM base AS installer
-RUN apk add --no-cache libc6-compat
-RUN apk update
+# RUN apk add --no-cache libc6-compat
+# RUN apk update
 WORKDIR /app
 
 COPY .gitignore .gitignore
@@ -94,7 +94,7 @@ COPY --from=builder /app/out/full/ .
 
 WORKDIR /app/apps/api
 # RUN pnpm install
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm install --frozen-lockfile
 RUN ls /app/node_modules
 RUN ls /app/apps/api/node_modules
 
