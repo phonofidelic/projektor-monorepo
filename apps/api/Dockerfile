@@ -94,10 +94,11 @@ COPY --from=builder /app/out/full/ .
 
 WORKDIR /app/apps/api
 RUN pnpm install --shamefully-hoist
+RUN ls /app/node_modules
+RUN pnpm link /app/apps/api
 
 WORKDIR /app
 COPY turbo.json turbo.json
-RUN ls /app
 WORKDIR /app/apps/api
 RUN pnpm dlx prisma generate --schema=/app/apps/api/prisma/schema.prisma
 
