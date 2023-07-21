@@ -70,7 +70,7 @@
 FROM node:18-alpine AS base
 
 RUN corepack enable
-VOLUME [ "/pnpm-store", "/app/node_modules", "/app/apps/api/node_modules" ]
+# VOLUME [ "/pnpm-store", "/app/node_modules", "/app/apps/api/node_modules" ]
 RUN pnpm config --global set store-dir /pnpm-store
 
 FROM base AS builder
@@ -92,14 +92,14 @@ COPY --from=builder /app/out/pnpm-lock.yaml ./pnpm-lock.yaml
 COPY --from=builder /app/out/full/ .
 # RUN pnpm install
 
-WORKDIR /app/apps/api
+# WORKDIR /app/apps/api
 # RUN pnpm install
 RUN pnpm install --frozen-lockfile
-RUN ls /app/node_modules
-RUN ls /app/apps/api/node_modules
+RUN ls -a /app/node_modules
+RUN ls -a /app/apps/api/node_modules
 
-WORKDIR /app
-COPY turbo.json turbo.json
+# WORKDIR /app
+# COPY turbo.json turbo.json
 WORKDIR /app/apps/api
 RUN pnpm dlx prisma generate --schema=/app/apps/api/prisma/schema.prisma
 
