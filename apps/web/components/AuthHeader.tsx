@@ -6,7 +6,6 @@ type Props = {}
 
 export default function AuthHeader({}: Props) {
   const { isAuthenticated, user } = useUser()
-  console.log('isAuthenticated', isAuthenticated)
 
   if (isAuthenticated) {
     return (
