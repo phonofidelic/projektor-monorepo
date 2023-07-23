@@ -1,6 +1,7 @@
 import { cookies } from 'next/headers'
 import Providers from '@/components/Providers'
 import './globals.css'
+import Navigation from '@/components/Navigation'
 
 export default async function RootLayout({
   children,
@@ -15,10 +16,15 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className="p-1 md:p-8 bg-white text-gray-700">
+      <body className=" bg-white text-gray-700">
         <Providers accessToken={accessToken} refreshToken={refreshToken}>
-          {children}
-          {authModal}
+          <div className="flex">
+            <Navigation />
+            <main className="p-1 md:p-8 w-full">
+              {children}
+              {authModal}
+            </main>
+          </div>
         </Providers>
       </body>
     </html>
