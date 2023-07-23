@@ -13,7 +13,7 @@ export default function Navigation({}: Props) {
   const navLinks = [
     {
       label: 'Settings',
-      href: '/',
+      href: '/settings',
     },
     {
       label: 'Projects',
