@@ -39,7 +39,7 @@ export default async function ProjectsLayout({ params, children }: Props) {
           </Header>
         )}
       </div>
-      <div className="m-aut">{children}</div>
+      <div>{children}</div>
     </div>
   )
 }
