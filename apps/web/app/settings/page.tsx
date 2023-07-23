@@ -1,9 +1,7 @@
 import { Header } from '@projektor/ui'
 import AuthHeader from '@/components/AuthHeader'
 
-type Props = {}
-
-export default function SettingsPage(props: Props) {
+export default function SettingsPage() {
   return (
     <>
       <Header title="Settings">
