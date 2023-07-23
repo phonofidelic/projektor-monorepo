@@ -52,6 +52,7 @@ export class ProjectsController {
     }
     const projects = await this.projectsService.findAll({
       where: { userId, status: filter },
+      orderBy: { createdAt: 'asc' },
     })
 
     return { projects }
