@@ -2,16 +2,14 @@
 import React from 'react'
 import TextInput from './TextInput'
 
-type Props = {}
-
-export default function RegistrationForm({}: Props) {
+export default function RegistrationForm() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const formData = new FormData(event.currentTarget)
     const formJson = Object.fromEntries(formData.entries())
 
-    const response = await fetch(
+    await fetch(
       `${process.env.NEXT_PUBLIC_PROJEKTOR_API_BASE_URL}/auth/register`,
       {
         method: 'POST',
@@ -21,8 +19,6 @@ export default function RegistrationForm({}: Props) {
         },
       }
     )
-
-    console.log('response', await response.json())
   }
   return (
     <form onSubmit={handleSubmit}>
