@@ -1,30 +1,35 @@
-## Getting Started
+# Projektor Web
 
-First, run the development server:
+The web app is a Next.js 13 App Router frontend for Projektor. It handles registration, login, navigation, and project management screens.
 
-```bash
-yarn dev
+## Setup
+
+Create a local environment file:
+
+```sh
+cp apps/web/.env.example apps/web/.env.local
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Set `NEXT_PUBLIC_PROJEKTOR_API_BASE_URL` to the running API URL, usually `http://localhost:4001`.
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Development
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+From the repository root:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+```sh
+pnpm --filter @projektor/web dev
+```
 
-## Learn More
+The app runs at `http://localhost:3000`.
 
-To learn more about Next.js, take a look at the following resources:
+## Validation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn/foundations/about-nextjs) - an interactive Next.js tutorial.
+```sh
+pnpm --filter @projektor/web lint
+pnpm --filter @projektor/web build
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Notes
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_source=github.com&utm_medium=referral&utm_campaign=turborepo-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- This app currently reads authentication tokens from client-readable cookies. That keeps the current implementation simple, but it should be hardened before production use.
+- Shared UI components come from `@projektor/ui`; shared domain types come from `@projektor/types`.

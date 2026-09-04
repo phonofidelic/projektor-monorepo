@@ -13,8 +13,8 @@ export default function Page() {
       <div className="p-4">
         <p>Welcome to Projektor!</p>
         <p>
-          This is a demo app that I am using to explore the different tools and
-          technologies used to build it. More info to come.
+          A project and time management application built with Next.js, NestJS,
+          Prisma, and shared Turborepo packages.
         </p>
       </div>
     </>

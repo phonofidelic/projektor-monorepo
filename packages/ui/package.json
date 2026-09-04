@@ -16,7 +16,7 @@
   "types": "./dist/lib/index.d.ts",
   "license": "MIT",
   "scripts": {
-    "lint": "eslint \"**/*.ts*\"",
+    "lint": "eslint \"lib/**/*.{ts,tsx}\" \"turbo/**/*.ts\" \"*.ts\"",
     "generate:component": "turbo gen react-component",
     "build": "pnpm vite build",
     "dev": "pnpm vite build --watch",

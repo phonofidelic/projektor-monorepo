@@ -1,7 +1,7 @@
 import React from 'react'
 import { IconProps } from './IconProps'
 
-export default function ({ color }: IconProps) {
+export default function AddIcon({ color }: IconProps) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
